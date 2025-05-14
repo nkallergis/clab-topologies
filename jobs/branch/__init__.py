@@ -30,7 +30,7 @@ class BranchDesign(DesignJob):
         design_file = "designs/0001_design.yaml.j2"
         context_class = BranchDesignContext
         nautobot_version = ">=2"
-        extensions [ext.CableConnectionExtension]
+        extensions = [ext.CableConnectionExtension]
 
 name = "Demo Designs"
 register_jobs(BranchDesign)
