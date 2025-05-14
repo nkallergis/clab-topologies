@@ -3,6 +3,7 @@ from nautobot.apps.jobs import register_jobs, StringVar, IPNetworkVar, ObjectVar
 
 from nautobot.dcim.models import Location
 
+from nautobot_design_builder.contrib import ext
 from nautobot_design_builder.design_job import DesignJob
 
 from .context import BranchDesignContext
@@ -29,6 +30,7 @@ class BranchDesign(DesignJob):
         design_file = "designs/0001_design.yaml.j2"
         context_class = BranchDesignContext
         nautobot_version = ">=2"
+        extensions [ext.CableConnectionExtension]
 
 name = "Demo Designs"
 register_jobs(BranchDesign)
