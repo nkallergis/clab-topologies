@@ -11,9 +11,9 @@ locations:
     {% for i in range(2) %}
       - name: "{{ site_name }}-LR{{ i }}"
         status__name: "Planned"
-        device_type__model: "C8300-1N1S-6T"
-        role__name: "Edge Router"
-        platform__name: "Cisco IOS"
+        device_type__model: "Dummy"
+        role__name: "Router"
+        platform__name: "Arista EOS"
         interfaces:
           - name: "GigabitEthernet0/0"
             type: "1000base-t"
