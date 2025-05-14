@@ -6,11 +6,30 @@ topology:
     ceos:
       image: ceos:4.32.1F
   nodes:
+    dc-sw-tor1:
+      kind: ceos
+    dc-sw-tor2:
+      kind: ceos
+    dc-sw-tor3:
+      kind: ceos
+    dc-sw-tor4:
+      kind: ceos
     dist-rtr1:
+      kind: ceos
+    dist-rtr2:
+      kind: ceos
+    dmz-rtr-bdr1:
       kind: ceos
     wan-rtr-bb1:
       kind: ceos
+    wan-rtr-bb2:
+      kind: ceos
   
   links:
+    - endpoints: ["wan-rtr-bb2:eth1", "dist-rtr2:eth1"]
+    - endpoints: ["wan-rtr-bb1:eth3", "wan-rtr-bb2:eth3"]
+    - endpoints: ["wan-rtr-bb1:eth4", "wan-rtr-bb2:eth4"]
+    - endpoints: ["wan-rtr-bb2:eth2", "dist-rtr1:eth2"]
+    - endpoints: ["wan-rtr-bb1:eth2", "dist-rtr2:eth2"]
     - endpoints: ["wan-rtr-bb1:eth1", "dist-rtr1:eth1"]
   
