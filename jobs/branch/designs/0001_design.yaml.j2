@@ -15,11 +15,12 @@ locations:
         role__name: "Router"
         platform__name: "Arista EOS"
         interfaces:
-          - name: "eth0"
+          - name: "eth1"
             type: "1000base-t"
             description: "Uplink to backbone"
             status__name: "Planned"
     {% endfor %}
+
 circuits:
   {% for i in range(2) %}
   - cid: "{{ site_name }}-CKT-{{ i }}"
@@ -32,3 +33,14 @@ circuits:
       - term_side: "Z"
         provider_network__name: "NTC-WAN"
   {% endfor %}
+
+cables:
+  - status__name: "Connected"
+    "!lookup:termination_a":
+        content-type: "dcim.interface"
+        device__name: "{{ site_name }}-LR0
+        name: "eth1"
+    "!lookup:termination_b":
+        content-type: "dcim.interface"
+        device__name: "{{ site_name }}-LR1
+        name: "eth1"
