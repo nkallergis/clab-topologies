@@ -33,14 +33,3 @@ circuits:
       - term_side: "Z"
         provider_network__name: "NTC-WAN"
   {% endfor %}
-
-cables:
-  - status__name: "Connected"
-    "!lookup:termination_a":
-        content-type: "dcim.interface"
-        device__name: "{{ site_name }}-LR0
-        name: "eth1"
-    "!lookup:termination_b":
-        content-type: "dcim.interface"
-        device__name: "{{ site_name }}-LR1
-        name: "eth1"
