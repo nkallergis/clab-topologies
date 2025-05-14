@@ -1,0 +1,16 @@
+---
+name: lab-devices
+
+topology:
+  kinds:
+    ceos:
+      image: ceos:4.32.1F
+  nodes:
+    dist-rtr1:
+      kind: ceos
+    wan-rtr-bb1:
+      kind: ceos
+  
+  links:
+    - endpoints: ["wan-rtr-bb1:eth1", "dist-rtr1:eth1"]
+  
