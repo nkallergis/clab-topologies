@@ -8,19 +8,19 @@ locations:
       - prefix: "{{ site_prefix }}"
         status__name: "Reserved"
     devices:
-      - name: "{{ site_name }}-LR0"
+      - name: "{{ site_name }}-LRR0"
         status__name: "Planned"
         device_type__model: "Dummy"
         role__name: "Router"
         platform__name: "Arista EOS"
-        "!ref": "{{ site_name }}-LR0"
+        "!ref": "{{ site_name }}-LRR0"
         interfaces:
           - name: "eth1"
             type: "1000base-t"
             description: "Uplink to backbone"
             status__name: "Planned"
-            "!ref": "{{ site_name }}-LR0:eth1"
-      - name: "{{ site_name }}-LR1"
+            "!ref": "{{ site_name }}-LRR0:eth1"
+      - name: "{{ site_name }}-LRR1"
         status__name: "Planned"
         device_type__model: "Dummy"
         role__name: "Router"
@@ -33,8 +33,8 @@ locations:
             "!connect_cable":
                 status__name: "Planned"
                 to:
-                    device: "!ref:{{ site_name }}-LR0"
-                    name: "!ref:{{ site_name }}-LR0:eth1"
+                    device: "!ref:{{ site_name }}-LRR0"
+                    name: "!ref:{{ site_name }}-LRR0:eth1"
 
 circuits:
   {% for i in range(2) %}
