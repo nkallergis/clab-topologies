@@ -5,7 +5,7 @@ from nautobot.dcim.models import Location
 
 from nautobot_design_builder.design_job import DesignJob
 
-from .context import EdgeDesignContext
+from .context import BranchDesignContext
 
 
 class BranchDesign(DesignJob):
