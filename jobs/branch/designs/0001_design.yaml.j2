@@ -40,9 +40,9 @@ locations:
 
 cables:
   - termination_a: "!ref:{{ site_name }}-LR0:eth1"
-  - termination_a_id: "!ref:{{ site_name }}-LR0:eth1.id"
-  - termination_b: "!ref:{{ site_name }}-LR1:eth1"
-  - termination_b_id: "!ref:{{ site_name }}-LR1:eth1.id"
+    # termination_a_id: "!ref:{{ site_name }}-LR0:eth1.id"
+    termination_b: "!ref:{{ site_name }}-LR1:eth1"
+    # termination_b_id: "!ref:{{ site_name }}-LR1:eth1.id"
     status__name: "Connected"
 
 dynamic_groups:
