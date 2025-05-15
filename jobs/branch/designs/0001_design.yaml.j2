@@ -43,13 +43,10 @@ dynamic_groups:
     content_type:
       "!get:model": "device"
       "!get:app_label": "dcim"
-    # TODO: This seems to have broken during design builder from 2.0.0 to 2.1.0.
-    # In the meantime this is handled in render_networktocode_designs.py
-    # filter: {"tenant": ["Network to Code"], "platform": ["Arista EOS", "Cisco IOS", "Cisco NX-OS", "Juniper Junos"]}
-    # filter: {}
-    members:
-      - "!ref:{{ site_name }}-LR0"
-      - "!ref:{{ site_name }}-LR1"
+    # members:
+    #   - "!ref:{{ site_name }}-LR0"
+    #   - "!ref:{{ site_name }}-LR1"
+    filter: {"location": ["{{ site_name }}"]} 
     
 circuits:
   {% for i in range(2) %}
