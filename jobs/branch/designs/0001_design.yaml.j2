@@ -31,11 +31,17 @@ locations:
             type: "1000base-t"
             description: "Uplink to backbone"
             status__name: "Planned"
-            "!connect_cable":
-                status__name: "Planned"
-                to:
-                    device: "!ref:{{ site_name }}-LR0"
-                    name: "!ref:{{ site_name }}-LR0:eth1"
+            "!ref": "{{ site_name }}-LR1:eth1"
+            # "!connect_cable":
+            #     status__name: "Planned"
+            #     to:
+            #         device: "!ref:{{ site_name }}-LR0"
+            #         name: "!ref:{{ site_name }}-LR0:eth1"
+
+cables:
+  - termination_a: "!ref:{{ site_name }}-LR1:eth1"
+  - termination_b: "!ref:{{ site_name }}-LR0:eth1"
+    status__name: "Connected"
 
 dynamic_groups:
   - "!create_or_update:name": "{{ site_name }}"
