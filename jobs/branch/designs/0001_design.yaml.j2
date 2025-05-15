@@ -25,8 +25,8 @@ locations:
 
 cables:
 {% for i in range(0, 2, 2) %}
-  - "!create_or_update:termination_a": "!ref:{{ site_name }}-LR{{ i }}:eth1"
-    "!create_or_update:termination_b": "!ref:{{ site_name }}-LR{{ i + 1 }}:eth1"
+  - termination_a: "!ref:{{ site_name }}-LR{{ i }}:eth1"
+    termination_b: "!ref:{{ site_name }}-LR{{ i + 1 }}:eth1"
     status__name: "Connected"
 {% endfor %}
 
