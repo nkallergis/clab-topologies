@@ -25,6 +25,7 @@ locations:
         device_type__model: "Dummy"
         role__name: "Router"
         platform__name: "Arista EOS"
+        "!ref": "{{ site_name }}-LR1"
         interfaces:
           - name: "eth1"
             type: "1000base-t"
@@ -36,6 +37,20 @@ locations:
                     device: "!ref:{{ site_name }}-LR0"
                     name: "!ref:{{ site_name }}-LR0:eth1"
 
+dynamic_groups:
+  - "!create_or_update:name": "{{ site_name }}"
+    "description": "Dynamic Group for the devices in location {{ site_name }}"
+    content_type:
+      "!get:model": "device"
+      "!get:app_label": "dcim"
+    # TODO: This seems to have broken during design builder from 2.0.0 to 2.1.0.
+    # In the meantime this is handled in render_networktocode_designs.py
+    # filter: {"tenant": ["Network to Code"], "platform": ["Arista EOS", "Cisco IOS", "Cisco NX-OS", "Juniper Junos"]}
+    # filter: {}
+    members:
+      - "!ref:{{ site_name }}-LR0"
+      - "!ref:{{ site_name }}-LR1"
+    
 circuits:
   {% for i in range(2) %}
   - cid: "{{ site_name }}-CKT-{{ i }}"
