@@ -8,48 +8,69 @@ locations:
       - prefix: "{{ site_prefix }}"
         status__name: "Reserved"
     devices:
+
+    # ----- Routers -----
     {% for i in range(2) %}
-      - name: "{{ site_name }}-LR{{ i }}"
-        status__name: "Planned"
+      - name: "{{ site_name }}-RTR{{ i }}"
+        status__name: "Active"
         device_type__model: "Dummy"
         role__name: "Router"
         platform__name: "Arista EOS"
-        "!ref": "{{ site_name }}-LR{{ i }}"
+        "!ref": "{{ site_name }}-RTR{{ i }}"
         interfaces:
           - name: "eth1"
             type: "1000base-t"
             description: "Uplink to backbone"
-            status__name: "Planned"
-            "!ref": "{{ site_name }}-LR{{ i }}:eth1"
+            status__name: "Active"
+            "!ref": "{{ site_name }}-RTR{{ i }}:eth1"
+          - name: "eth2"
+            type: "1000base-t"
+            description: "Downlink to SW0"
+            status__name: "Active"
+            "!ref": "{{ site_name }}-RTR{{ i }}:eth2"
+          - name: "eth3"
+            type: "1000base-t"
+            description: "Downlink to SW1"
+            status__name: "Active"
+            "!ref": "{{ site_name }}-RTR{{ i }}:eth3"
     {% endfor %}
-      # - name: "{{ site_name }}-LR0"
-      #   status__name: "Planned"
-      #   device_type__model: "Dummy"
-      #   role__name: "Router"
-      #   platform__name: "Arista EOS"
-      #   "!ref": "{{ site_name }}-LR0"
-      #   interfaces:
-      #     - name: "eth1"
-      #       type: "1000base-t"
-      #       description: "Uplink to backbone"
-      #       status__name: "Planned"
-      #       "!ref": "{{ site_name }}-LR0:eth1"
-      # - name: "{{ site_name }}-LR1"
-      #   status__name: "Planned"
-      #   device_type__model: "Dummy"
-      #   role__name: "Router"
-      #   platform__name: "Arista EOS"
-      #   "!ref": "{{ site_name }}-LR1"
-      #   interfaces:
-      #     - name: "eth1"
-      #       type: "1000base-t"
-      #       description: "Uplink to backbone"
-      #       status__name: "Planned"
-      #       "!ref": "{{ site_name }}-LR1:eth1"
+
+    # ----- Switches -----
+    {% for i in range(2) %}
+      - name: "{{ site_name }}-SW{{ i }}"
+        status__name: "Active"
+        device_type__model: "Dummy"
+        role__name: "Switch"
+        platform__name: "Arista EOS"
+        "!ref": "{{ site_name }}-SW{{ i }}"
+        interfaces:
+          - name: "eth1"
+            type: "1000base-t"
+            description: "Uplink to RTR0"
+            status__name: "Active"
+            "!ref": "{{ site_name }}-SW{{ i }}:eth1"
+          - name: "eth2"
+            type: "1000base-t"
+            description: "Uplink to RTR1"
+            status__name: "Active"
+            "!ref": "{{ site_name }}-SW{{ i }}:eth2"
+    {% endfor %}
 
 cables:
   - termination_a: "!ref:{{ site_name }}-LR0:eth1"
     termination_b: "!ref:{{ site_name }}-LR1:eth1"
+    status__name: "Connected"
+  - termination_a: "!ref:{{ site_name }}-LR0:eth2"
+    termination_b: "!ref:{{ site_name }}-SW0:eth1"
+    status__name: "Connected"
+  - termination_a: "!ref:{{ site_name }}-LR0:eth3"
+    termination_b: "!ref:{{ site_name }}-SW1:eth1"
+    status__name: "Connected"
+  - termination_a: "!ref:{{ site_name }}-LR1:eth2"
+    termination_b: "!ref:{{ site_name }}-SW0:eth2"
+    status__name: "Connected"
+  - termination_a: "!ref:{{ site_name }}-LR1:eth3"
+    termination_b: "!ref:{{ site_name }}-SW1:eth2"
     status__name: "Connected"
 
 dynamic_groups:
@@ -63,7 +84,7 @@ dynamic_groups:
 circuits:
   {% for i in range(2) %}
   - cid: "{{ site_name }}-CKT-{{ i }}"
-    status__name: "Planned"
+    status__name: "Active"
     provider__name: "NTC"
     circuit_type__name: "Ethernet"
     circuit_terminations:
