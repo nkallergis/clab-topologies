@@ -43,9 +43,6 @@ dynamic_groups:
     content_type:
       "!get:model": "device"
       "!get:app_label": "dcim"
-    # members:
-    #   - "!ref:{{ site_name }}-LR0"
-    #   - "!ref:{{ site_name }}-LR1"
     filter: {"location": ["{{ site_name }}"]} 
     
 circuits:
