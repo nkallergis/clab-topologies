@@ -1,34 +1,42 @@
 ---
 locations:
-  - "!create_or_update:name": "{{ site_name }}"
+  - name: "{{ site_name }}"
     status__name: "Staging"
     location_type__name: "Site"
     parent__name: "{{ region.name }}"
     prefixes:
-      - "!create_or_update:prefix": "{{ site_prefix }}"
+      - prefix: "{{ site_prefix }}"
         status__name: "Reserved"
     devices:
-    {% for i in range(0, 2) %}
-      - "!create_or_update:name": "{{ site_name }}-LR0"
+      - name: "{{ site_name }}-LR0"
         status__name: "Planned"
         device_type__model: "Dummy"
         role__name: "Router"
         platform__name: "Arista EOS"
-        "!ref": "{{ site_name }}-LR{{ i }}"
+        "!ref": "{{ site_name }}-LR0"
         interfaces:
-          - "!create_or_update:name": "eth1"
+          - name: "eth1"
             type: "1000base-t"
             description: "Uplink to backbone"
             status__name: "Planned"
-            "!ref": "{{ site_name }}-LR{{ i }}:eth1"
-    {% endfor %}
+            "!ref": "{{ site_name }}-LR0:eth1"
+      - name: "{{ site_name }}-LR1"
+        status__name: "Planned"
+        device_type__model: "Dummy"
+        role__name: "Router"
+        platform__name: "Arista EOS"
+        "!ref": "{{ site_name }}-LR1"
+        interfaces:
+          - name: "eth1"
+            type: "1000base-t"
+            description: "Uplink to backbone"
+            status__name: "Planned"
+            "!ref": "{{ site_name }}-LR1:eth1"
 
 cables:
-{% for i in range(0, 2, 2) %}
-  - termination_a: "!ref:{{ site_name }}-LR{{ i }}:eth1"
-    termination_b: "!ref:{{ site_name }}-LR{{ i + 1 }}:eth1"
+  - termination_a: "!ref:{{ site_name }}-LR0:eth1"
+    termination_b: "!ref:{{ site_name }}-LR1:eth1"
     status__name: "Connected"
-{% endfor %}
 
 dynamic_groups:
   - "!create_or_update:name": "{{ site_name }}"
@@ -40,7 +48,7 @@ dynamic_groups:
     
 circuits:
   {% for i in range(2) %}
-  - "!create_or_update:cid": "{{ site_name }}-CKT-{{ i }}"
+  - cid: "{{ site_name }}-CKT-{{ i }}"
     status__name: "Planned"
     provider__name: "NTC"
     circuit_type__name: "Ethernet"
