@@ -1,14 +1,15 @@
 ---
 locations:
   - name: "{{ site_name }}"
-    status__name: "Staging"
+    status__name: "Active"
     location_type__name: "Site"
     parent__name: "{{ region.name }}"
+
     prefixes:
       - prefix: "{{ site_prefix }}"
-        status__name: "Reserved"
-    devices:
+        status__name: "Active"
 
+    devices:
     # ----- Routers -----
     {% for i in range(2) %}
       - name: "{{ site_name }}-RTR{{ i }}"

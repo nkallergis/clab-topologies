@@ -3,3 +3,20 @@ providers:
   - "!create_or_update:name": NTC
     provider_networks:
       - "!create_or_update:name": "NTC-WAN"
+
+location_types:
+  - "!create_or_update:name": Region
+    children:
+      - "!create_or_update:name": Site
+        content_types:
+          - { "!get:model": "device" }
+          - { "!get:model": "rack" }
+          - { "!get:model": "prefix" }
+          - { "!get:model": "vlan" }
+          - { "!get:model": "vlangroup" }
+          - { "!get:model": "circuittermination" }
+
+locations:
+  - "!create_or_update:name": Prague
+    location_type__name: Region
+    status__name: "Active"
