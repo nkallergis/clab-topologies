@@ -104,12 +104,6 @@ logging level VXLAN informational
 logging level XMPP informational
 logging level ZTP informational
 !
-{% include './eos/hostname.j2' %}
-!
-spanning-tree mode mstp
-!
-{% include './eos/interfaces.j2' %}
-!
 ip routing
 !
 !
