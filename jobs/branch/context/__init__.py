@@ -17,7 +17,7 @@ class BranchDesignContext(Context):
     def branch_prefixes(self):
         """Calculate the branch prefixes."""
         try:
-            supernet = Prefix.objects.get(location=site_name, role__name="Branch:Supernet")
+            supernet = Prefix.objects.get(location=self.site_name, role__name="Branch:Supernet")
         except:
             supernet = "1.2.3.0/24"
         return {
