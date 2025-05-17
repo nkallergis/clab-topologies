@@ -112,12 +112,12 @@ locations:
         {% endfor %}
     {% endfor %}
 
-ip_address_assignments:
-# ----- LOOPBACKS -----
-{% for rtr in range(2) %}
-  - "!create_or_update:ip_address": "!ref:loopback-{{ rtr }}"
-    "!create_or_update:interface": "!ref:{{ site_name }}-RTR{{ rtr + 1 }}:lo0"
-{% endfor %}
+# ip_address_assignments:
+# # ----- LOOPBACKS -----
+# {% for rtr in range(2) %}
+#   - "!create_or_update:ip_address": "!ref:loopback-{{ rtr }}"
+#     "!create_or_update:interface": "!ref:{{ site_name }}-RTR{{ rtr + 1 }}:lo0"
+# {% endfor %}
 
 dynamic_groups:
   - "!create_or_update:name": "{{ site_name }}"
