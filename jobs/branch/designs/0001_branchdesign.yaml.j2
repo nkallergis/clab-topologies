@@ -28,6 +28,7 @@ locations:
         {% for ip in range(4) %}
           - "!create_or_update:address": "{{ container_loopback | network_offset('0.0.0.' ~ ip ~ '/32') }}"
             status__name: "Active"
+            "!ref": "loopback-{{ ip }}"
         {% endfor %}
       - "!create_or_update:prefix": "{{ container_l3link }}"
         type: "container"
@@ -112,9 +113,9 @@ locations:
     {% endfor %}
 
 ip_address_assignments:
+# ----- LOOPBACKS -----
 {% for rtr in range(2) %}
-  - "!create_or_update:ip_address":
-      "!get:address": "10.0.32.{{ rtr }}/32"
+  - "!create_or_update:ip_address": "!ref:loopback-{{ rtr }}"
     "!create_or_update:interface": "!ref:{{ site_name }}-RTR{{ rtr + 1 }}:lo0"
 {% endfor %}
 
