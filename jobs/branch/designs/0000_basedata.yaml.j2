@@ -54,18 +54,27 @@ roles:
     color: "ffc107"
     content_types:
       - { "!get:model": "prefix" }
+      - { "!get:model": "ipaddress" }
   - "!create_or_update:name": "Branch:L3Link"
     color: "ff9800"
     content_types:
       - { "!get:model": "prefix" }
+      - { "!get:model": "ipaddress" }
   - "!create_or_update:name": "Branch:Loopback"
     color: "ff5722"
     content_types:
       - { "!get:model": "prefix" }
+      - { "!get:model": "ipaddress" }
   - "!create_or_update:name": "Branch:LAN"
     color: "4caf50"
     content_types:
       - { "!get:model": "prefix" }
+      - { "!get:model": "ipaddress" }
+  - "!create_or_update:name": "P2P"
+    color: "4caf50"
+    content_types:
+      - { "!get:model": "prefix" }
+      - { "!get:model": "ipaddress" }
 
 circuit_types:
   - "!create_or_update:name": "Ethernet"
