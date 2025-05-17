@@ -171,15 +171,6 @@ ip_address_assignments:
   {%   endfor %}
   {% endfor %}
 
-dynamic_groups:
-  - "!create_or_update:name": "{{ site_name }}"
-    "description": "Dynamic Group for the devices in location {{ site_name }}"
-    tenant__name: "Autocon3"
-    content_type:
-      "!get:model": "device"
-      "!get:app_label": "dcim"
-    filter: {"location": ["{{ site_name }}"]} 
-    
 circuits:
   {% for i in range(2) %}
   - "!create_or_update:cid": "{{ site_name }}-CKT-{{ i + 1 }}"
@@ -193,3 +184,17 @@ circuits:
       - "!create_or_update:term_side": "Z"
         provider_network__name: "NTC-WAN"
   {% endfor %}
+
+dynamic_groups:
+  - "!create_or_update:name": "{{ site_name }}"
+    "description": "Dynamic Group for the devices in location {{ site_name }}"
+    tenant__name: "Autocon3"
+    content_type:
+      "!get:model": "device"
+      "!get:app_label": "dcim"
+    filter: {"location": ["{{ site_name }}"]} 
+
+containerlab_topologies:
+  - "!create_or_update:name": "{{ site_name }}"
+    description: "Containerlab topology for {{ site_name }}"
+    dynamic_group__name: "{{ site_name }}"
