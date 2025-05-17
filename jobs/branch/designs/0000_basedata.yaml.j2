@@ -31,9 +31,11 @@ platforms:
   - "!create_or_update:name": "Arista EOS"
     manufacturer__name: "Arista"
     "network_driver": "arista_eos"
-    software_versions:
-      - "!create_or_update:version": "4.32.1F"
-        status__name: "Active"
+
+software_versions:
+  - "!create_or_update:version": "4.32.1F"
+    platform__name: "Arista EOS"
+    status__name: "Active"
 
 device_types:
   - "!create_or_update:model": "Dummy"
