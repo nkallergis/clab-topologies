@@ -38,7 +38,7 @@ class BranchDesign(DesignJob):
         nautobot_version = ">=2"
         has_sensitive_variables = False
         extensions = [ext.CableConnectionExtension, ext.NextPrefixExtension]
-        design_files = ["designs/0001_branchdesign.yaml.j2", "designs/0002_branchdesign.yaml.j2"]
+        design_file = "designs/0001_branchdesign.yaml.j2"
         context_class = BranchDesignContext
 
 name = "Demo Designs"
