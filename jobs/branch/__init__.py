@@ -35,10 +35,10 @@ class BranchDesign(DesignJob):
     class Meta:
         """Metadata describing this design job."""
 
+        design_mode = DesignModeChoices.DEPLOYMENT
         name = "Branch Design"
         version = "1.0"
-        description = "A basic design for new branches."
-        design_mode = DesignModeChoices.DEPLOYMENT
+        docs = "A basic design for new branches."
         nautobot_version = ">=2"
         has_sensitive_variables = False
         extensions = [ext.CableConnectionExtension, ext.NextPrefixExtension]
