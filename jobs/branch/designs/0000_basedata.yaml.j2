@@ -66,3 +66,37 @@ prefixes:
   - "!create_or_update:prefix": "{{ base_prefix }}"
     type: "container"
     status__name: "Active"
+
+secrets:
+  - "!create_or_update:name": "GITHUB_TOKEN"
+    provider: "environment-variable"
+    parameters: "{'variable': 'GITHUB_TOKEN'}"
+    "!ref": "github_token"
+  - "!create_or_update:name": "DEVICE_USERNAME"
+    provider: "environment-variable"
+    parameters: "{'variable': 'NAUTOBOT_SUPERUSER_NAME'}"
+    "!ref": "device_username"
+  - "!create_or_update:name": "DEVICE_PASSWORD"
+    provider: "environment-variable"
+    parameters: "{'variable': 'NAUTOBOT_SUPERUSER_PASSWORD'}"
+    "!ref": "device_password"
+
+secrets_groups:
+  - "!create_or_update:name": "GITHUB_CREDENTIALS"
+    "!ref": "github_credentials"
+  - "!create_or_update:name": "DEVICE_CREDENTIALS"
+    "!ref": "device_credentials"
+
+secrets_group_associations:
+  - "!create_or_update:secrets_group": "!ref:github_credentials"
+    "!create_or_update:secret": "!ref:github_token"
+    "!create_or_update:access_type": "HTTP(S)"
+    "!create_or_update:secret_type": "token"
+  - "!create_or_update:secrets_group": "!ref:device_credentials"
+    "!create_or_update:secret": "!ref:device_username"
+    "!create_or_update:access_type": "Generic"
+    "!create_or_update:secret_type": "username"
+  - "!create_or_update:secrets_group": "!ref:device_credentials"
+    "!create_or_update:secret": "!ref:device_password"
+    "!create_or_update:access_type": "Generic"
+    "!create_or_update:secret_type": "password"
