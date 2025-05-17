@@ -29,7 +29,7 @@ class BranchDesignContext(Context):
         filtered_available_prefixes = [p for p in available_prefixes if p.prefixlen <= BRANCH_SUPERNET_PREFIXLEN]
         try:
             container = sorted(filtered_available_prefixes, reverse=True, key=lambda x: x.prefixlen)[0]
-            return str(container.network) + "/" + BRANCH_SUPERNET_PREFIXLEN 
+            return str(container.network) + "/" + str(BRANCH_SUPERNET_PREFIXLEN) 
         except IndexError:
             raise DesignValidationError("Not enough IP space to create new branch!")
             
