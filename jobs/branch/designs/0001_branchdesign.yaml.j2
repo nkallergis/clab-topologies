@@ -24,6 +24,11 @@ locations:
         type: "pool"
         role__name: "Branch:Loopback"
         status__name: "Active"
+        ip_addresses:
+        {% for ip in range(4) %}
+          - "!create_or_update:address": "{{ container_loopback | network_offset('0.0.0.' ~ ip ~ '/32' }}"
+            status__name: "Active"
+        {% endfor %}
       - "!create_or_update:prefix": "{{ container_l3link }}"
         type: "container"
         role__name: "Branch:L3Link"
@@ -33,6 +38,11 @@ locations:
         type: "network"
         role__name: "Branch:L3Link"
         status__name: "Active"
+        ip_addresses:
+        {% for ip in range(4) %}
+          - "!create_or_update:address": "{{ l3link[link] | network_offset('0.0.0.' ~ ip ~ '/32' }}"
+            status__name: "Active"
+        {% endfor %}
       {% endfor %}
       - "!create_or_update:prefix": "{{ lan_data }}"
         description: "Data LAN"
@@ -62,10 +72,10 @@ locations:
             description: "Downlink to {{ site_name }}-SW{{ port + 1 }}"
             status__name: "Active"
             "!ref": "{{ site_name }}-RTR{{ rtr + 1 }}:eth{{ port + 1 }}"
-            ip_address_assignments:
-              - "!create_or_update:ip_address":
-                  "!create_or_update:address": "{{ l3link[link] | network_offset('0.0.0.1/30') }}"
-                  "status__name": "Active"
+            # ip_address_assignments:
+            #   - "!create_or_update:ip_address":
+            #       "!create_or_update:address": "{{ l3link[link] | network_offset('0.0.0.1/30') }}"
+            #       "status__name": "Active"
         {% endfor %}
           - "!create_or_update:name": "eth8"
             type: "1000base-t"
@@ -75,10 +85,10 @@ locations:
             type: "virtual"
             description: "Uplink to backbone"
             status__name: "Active"
-            ip_address_assignments:
-              - ip_address:
-                  "!create_or_update:address": "{{ container_loopback | network_offset('0.0.0.' ~ rtr ~ '/30') }}"
-                  "status__name": "Active"
+            # ip_address_assignments:
+            #   - ip_address:
+            #       "!create_or_update:address": "{{ container_loopback | network_offset('0.0.0.' ~ rtr ~ '/30') }}"
+            #       "status__name": "Active"
     {% endfor %}
 
     # ----- Switches -----
