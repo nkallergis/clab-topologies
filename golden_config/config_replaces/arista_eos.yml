@@ -1,0 +1,7 @@
+---
+# yamllint disable rule:quoted-strings
+- name: "replace_secret"
+  platform_slug: "arista_eos"
+  description: "Replace privilege secret from config"
+  regex: '(username\s+\S+\s+privilege\s+[0-9]{1,2}\s+role\s+network-admin\s+secret\s+sha512\s+)\S+'
+  replace: '\1<redacted_config>'
