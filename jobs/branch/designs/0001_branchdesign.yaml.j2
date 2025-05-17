@@ -12,24 +12,24 @@ locations:
     devices:
     # ----- Routers -----
     {% for i in range(2) %}
-      - name: "{{ site_name }}-RTR{{ i }}"
+      - "!create_or_update:name": "{{ site_name }}-RTR{{ i }}"
         status__name: "Active"
         device_type__model: "Dummy"
         role__name: "Router"
         platform__name: "Arista EOS"
         "!ref": "{{ site_name }}-RTR{{ i }}"
         interfaces:
-          - name: "eth1"
+          - "!create_or_update:name": "eth1"
             type: "1000base-t"
             description: "Uplink to backbone"
             status__name: "Active"
             "!ref": "{{ site_name }}-RTR{{ i }}:eth1"
-          - name: "eth2"
+          - "!create_or_update:name": "eth2"
             type: "1000base-t"
             description: "Downlink to SW0"
             status__name: "Active"
             "!ref": "{{ site_name }}-RTR{{ i }}:eth2"
-          - name: "eth3"
+          - "!create_or_update:name": "eth3"
             type: "1000base-t"
             description: "Downlink to SW1"
             status__name: "Active"
@@ -38,19 +38,19 @@ locations:
 
     # ----- Switches -----
     {% for i in range(2) %}
-      - name: "{{ site_name }}-SW{{ i }}"
+      - "!create_or_update:name": "{{ site_name }}-SW{{ i }}"
         status__name: "Active"
         device_type__model: "Dummy"
         role__name: "Switch"
         platform__name: "Arista EOS"
         "!ref": "{{ site_name }}-SW{{ i }}"
         interfaces:
-          - name: "eth1"
+          - "!create_or_update:name": "eth1"
             type: "1000base-t"
             description: "Uplink to RTR0"
             status__name: "Active"
             "!ref": "{{ site_name }}-SW{{ i }}:eth1"
-          - name: "eth2"
+          - "!create_or_update:name": "eth2"
             type: "1000base-t"
             description: "Uplink to RTR1"
             status__name: "Active"
