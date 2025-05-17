@@ -11,68 +11,47 @@ locations:
 
     devices:
     # ----- Routers -----
-    {% for i in range(2) %}
-      - "!create_or_update:name": "{{ site_name }}-RTR{{ i }}"
+    {% for rtr in range(1, 3) %}
+      - "!create_or_update:name": "{{ site_name }}-RTR{{ rtr }}"
         status__name: "Active"
         device_type__model: "Dummy"
         role__name: "Router"
         platform__name: "Arista EOS"
-        "!ref": "{{ site_name }}-RTR{{ i }}"
+        "!ref": "{{ site_name }}-RTR{{ rtr }}"
         interfaces:
-          - "!create_or_update:name": "eth1"
+          - "!create_or_update:name": "eth8"
             type: "1000base-t"
             description: "Uplink to backbone"
             status__name: "Active"
-            "!ref": "{{ site_name }}-RTR{{ i }}:eth1"
-          - "!create_or_update:name": "eth2"
+            "!ref": "{{ site_name }}-RTR{{ rtr }}:eth8"
+          {% for port in range(1, 3)
+          - "!create_or_update:name": "eth{{ port }}"
             type: "1000base-t"
-            description: "Downlink to SW0"
+            description: "Downlink to {{ site_name }}-SW{{ port }}"
             status__name: "Active"
-            "!ref": "{{ site_name }}-RTR{{ i }}:eth2"
-          - "!create_or_update:name": "eth3"
-            type: "1000base-t"
-            description: "Downlink to SW1"
-            status__name: "Active"
-            "!ref": "{{ site_name }}-RTR{{ i }}:eth3"
+            "!ref": "{{ site_name }}-RTR{{ rtr }}:eth{{ port }}"
+          {% endfor %}
     {% endfor %}
 
     # ----- Switches -----
-    {% for i in range(2) %}
-      - "!create_or_update:name": "{{ site_name }}-SW{{ i }}"
+    {% for sw in range(1, 3) %}
+      - "!create_or_update:name": "{{ site_name }}-SW{{ sw }}"
         status__name: "Active"
         device_type__model: "Dummy"
         role__name: "Switch"
         platform__name: "Arista EOS"
-        "!ref": "{{ site_name }}-SW{{ i }}"
+        "!ref": "{{ site_name }}-SW{{ sw }}"
         interfaces:
-          - "!create_or_update:name": "eth1"
+        {% for port in range(1, 3)
+          - "!create_or_update:name": "eth{{ port }}"
             type: "1000base-t"
-            description: "Uplink to RTR0"
+            description: "Uplink to RTR{{ port }}"
             status__name: "Active"
-            "!ref": "{{ site_name }}-SW{{ i }}:eth1"
-          - "!create_or_update:name": "eth2"
-            type: "1000base-t"
-            description: "Uplink to RTR1"
-            status__name: "Active"
-            "!ref": "{{ site_name }}-SW{{ i }}:eth2"
+            "!connect_cable":
+              to: "!ref:{{ site_name }}-RTR{{ port }}:eth{{ sw }}"
+              status__name: "Active"
+        {% endfor %}
     {% endfor %}
-
-cables:
-  - "!create_or_update:termination_a": "!ref:{{ site_name }}-RTR0:eth1"
-    "!create_or_update:termination_b": "!ref:{{ site_name }}-RTR1:eth1"
-    status__name: "Connected"
-  - "!create_or_update:termination_a": "!ref:{{ site_name }}-RTR0:eth2"
-    "!create_or_update:termination_b": "!ref:{{ site_name }}-SW0:eth1"
-    status__name: "Connected"
-  - "!create_or_update:termination_a": "!ref:{{ site_name }}-RTR0:eth3"
-    "!create_or_update:termination_b": "!ref:{{ site_name }}-SW1:eth1"
-    status__name: "Connected"
-  - "!create_or_update:termination_a": "!ref:{{ site_name }}-RTR1:eth2"
-    "!create_or_update:termination_b": "!ref:{{ site_name }}-SW0:eth2"
-    status__name: "Connected"
-  - "!create_or_update:termination_a": "!ref:{{ site_name }}-RTR1:eth3"
-    "!create_or_update:termination_b": "!ref:{{ site_name }}-SW1:eth2"
-    status__name: "Connected"
 
 dynamic_groups:
   - "!create_or_update:name": "{{ site_name }}"
@@ -83,7 +62,7 @@ dynamic_groups:
     filter: {"location": ["{{ site_name }}"]} 
     
 circuits:
-  {% for i in range(2) %}
+  {% for i in range(1, 3) %}
   - cid: "{{ site_name }}-CKT-{{ i }}"
     status__name: "Active"
     provider__name: "NTC"
