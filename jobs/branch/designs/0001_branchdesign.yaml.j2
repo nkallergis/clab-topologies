@@ -5,9 +5,7 @@ locations:
     location_type__name: "Site"
     parent__name: "{{ region.name }}"
 
-    prefixes:
-      - "!create_or_update:prefix": "{{ site_prefix }}"
-        status__name: "Active"
+{% include 
 
     devices:
     # ----- Routers -----

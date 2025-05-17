@@ -39,10 +39,20 @@ roles:
   - "!create_or_update:name": "Switch"
     content_types:
       - { "!get:model": "device" }
+  - "!create_or_update:name": "Branch:Supernet"
+    content_types:
+      - { "!get:model": "prefix" }
+  - "!create_or_update:name": "Branch:L3Link"
+    content_types:
+      - { "!get:model": "prefix" }
+  - "!create_or_update:name": "Branch:LAN"
+    content_types:
+      - { "!get:model": "prefix" }
 
 circuit_types:
   - "!create_or_update:name": "Ethernet"
 
 prefixes:
   - "!create_or_update:prefix": "{{ base_prefix }}"
+    type: "container"
     status__name: "Active"
