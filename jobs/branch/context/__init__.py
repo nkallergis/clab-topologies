@@ -3,7 +3,7 @@ from netaddr import IPNetwork
 
 from nautobot_design_builder.errors import DesignValidationError
 from nautobot_design_builder.context import Context, context_file
-
+from nautobot.ipam.models import Prefix
 
 @context_file("context.yaml")
 class BaseDataContext(Context):
@@ -15,6 +15,11 @@ class BranchDesignContext(Context):
 
     @property
     def branch_prefixes(self):
+        """Calculate the branch prefixes."""
+        try:
+            supernet = Prefix.objects.get(location=site_name, role="Branch:Supernet")
+        except:
+            supernet = "1.2.3.0/24"
         return {
-            "supernet": "10.10.10.0/24"
+            "supernet": supernet,
         }
