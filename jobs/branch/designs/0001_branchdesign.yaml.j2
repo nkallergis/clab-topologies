@@ -66,6 +66,10 @@ locations:
             description: "Downlink to {{ site_name }}-SW{{ port }}"
             status__name: "Active"
             "!ref": "{{ site_name }}-RTR{{ rtr }}:eth{{ port }}"
+            ip_address_assignments:
+              - ip_address:
+                  "!create_or_update:address": "{{ l3link[2 * (rtr - 1) + port] | network_offset('0.0.0.1/30') }}"
+                  "status__name": "Active"
           {% endfor %}
     {% endfor %}
 
