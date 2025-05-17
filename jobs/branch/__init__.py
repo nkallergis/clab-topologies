@@ -8,6 +8,15 @@ from nautobot_design_builder.design_job import DesignJob
 
 from .context import BranchDesignContext
 
+class BaseData(DesignJob):
+    """Load base data."""
+
+    class Meta:
+        """Metadata for the BaseData design."""
+
+        name = "Base Data"
+        design_file = "designs/0000_design.yaml.j2"
+        nautobot_version = ">=2"
 
 class BranchDesign(DesignJob):
     """A basic design for design builder."""
@@ -27,7 +36,7 @@ class BranchDesign(DesignJob):
 
         name = "Branch Design"
         commit_default = False
-        design_files = ["designs/0000_design.yaml.j2", "designs/0001_design.yaml.j2"]
+        design_file = "designs/0001_design.yaml.j2"
         context_class = BranchDesignContext
         nautobot_version = ">=2"
         extensions = [ext.CableConnectionExtension]
