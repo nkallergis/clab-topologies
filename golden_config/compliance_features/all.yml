@@ -42,3 +42,7 @@
 - name: "Interfaces"
   slug: "interfaces"
   description: ""
+
+- name: "OSPF"
+  slug: "ospf"
+  description: ""

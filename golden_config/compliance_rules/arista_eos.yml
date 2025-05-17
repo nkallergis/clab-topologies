@@ -88,3 +88,11 @@
     interface Ethernet
     interface Loopback
   config_type: "cli"
+
+- feature_slug: "ospf"
+  platform_network_driver: "arista_eos"
+  config_ordered: true
+  config_remediation: true
+  match_config: |
+    router ospf
+  config_type: "cli"
