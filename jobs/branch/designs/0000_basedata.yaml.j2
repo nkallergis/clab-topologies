@@ -100,3 +100,8 @@ secrets_group_associations:
     "!create_or_update:secret": "!ref:device_password"
     "!create_or_update:access_type": "Generic"
     "!create_or_update:secret_type": "password"
+
+containerlab_kinds:
+  - "!create_or_update:kind": "ceos"
+    platform__name: "Arista EOS"
+    image: "ceos:4.32.1F"
