@@ -87,7 +87,7 @@ secrets_groups:
   - "!create_or_update:name": "DEVICE_CREDENTIALS"
     "!ref": "device_credentials"
 
-{# secrets_group_associations:
+secrets_group_associations:
   - "!create_or_update:secrets_group": "!ref:github_credentials"
     "!create_or_update:secret": "!ref:github_token"
     "!create_or_update:access_type": "HTTP(S)"
@@ -99,4 +99,4 @@ secrets_groups:
   - "!create_or_update:secrets_group": "!ref:device_credentials"
     "!create_or_update:secret": "!ref:device_password"
     "!create_or_update:access_type": "Generic"
-    "!create_or_update:secret_type": "password" #}
+    "!create_or_update:secret_type": "password"
