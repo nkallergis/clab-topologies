@@ -86,7 +86,7 @@ locations:
             status__name: "Active"
             ip_address_assignments:
               - "!create_or_update:ip_address":
-                  "!get:host": "{{ container_loopback | network_offset('0.0.0.' ~ rtr ~ '/30') | split('/') | first }}"
+                  "!get:host": "{{ container_loopback | network_offset('0.0.0.' ~ rtr ~ '/30') | str | split('/') | first }}"
     {% endfor %}
 
     # ----- Switches -----
