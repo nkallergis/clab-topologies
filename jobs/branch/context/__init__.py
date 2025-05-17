@@ -16,6 +16,8 @@ class BranchDesignContext(Context):
     @property
     def branch_prefixes(self):
         """Calculate the branch prefixes."""
+        from rich import inspect
+        inspect(self)
         try:
             supernet = Prefix.objects.get(location=self.site_name, role__name="Branch:Supernet")
         except:
