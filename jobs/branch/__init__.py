@@ -6,7 +6,7 @@ from nautobot.dcim.models import Location
 from nautobot_design_builder.contrib import ext
 from nautobot_design_builder.design_job import DesignJob
 
-from .context import BranchDesignContext
+from .context import BaseDataContext, BranchDesignContext
 
 class BaseData(DesignJob):
     """Load base data."""
@@ -15,8 +15,10 @@ class BaseData(DesignJob):
         """Metadata for the BaseData design."""
 
         name = "Base Data"
-        design_file = "designs/0000_design.yaml.j2"
         nautobot_version = ">=2"
+        has_sensitive_variables = False
+        design_file = "designs/0000_design.yaml.j2"
+        context_class = BaseDataContext
 
 class BranchDesign(DesignJob):
     """A basic design for design builder."""
@@ -29,17 +31,16 @@ class BranchDesign(DesignJob):
 
     site_name = StringVar(label="Site Name", regex=r"\w{3}\d+")
     site_prefix = IPNetworkVar(label="Site Prefix")
-    has_sensitive_variables = False
 
     class Meta:
         """Metadata describing this design job."""
 
         name = "Branch Design"
-        commit_default = False
+        nautobot_version = ">=2"
+        has_sensitive_variables = False
+        extensions = [ext.CableConnectionExtension]
         design_file = "designs/0001_design.yaml.j2"
         context_class = BranchDesignContext
-        nautobot_version = ">=2"
-        extensions = [ext.CableConnectionExtension]
 
 name = "Demo Designs"
 register_jobs(BaseData, BranchDesign)
