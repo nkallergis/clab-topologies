@@ -142,6 +142,7 @@ locations:
         {% endfor %}
     {% endfor %}
 
+
 ip_addresses:
   # ----- LOOPBACKS -----
   {% for rtr in range(2) %}
@@ -154,9 +155,6 @@ ip_addresses:
       "!ref": "loopback-{{ rtr }}"
   {% endfor %}
 
-  # # ----- L3LINKS -----
-  # {% for link in range(4) %}
-  #   - "!create_or_update:address": "{{ l3link[link] | network_offset('
 
 
 # ip_address_assignments:
