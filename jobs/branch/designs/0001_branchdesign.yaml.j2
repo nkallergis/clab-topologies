@@ -145,12 +145,12 @@ locations:
 
 ip_addresses:
   # ----- LOOPBACKS -----
-  {% for rtr in range(2) %}
-    - "!create_or_update:address": "{{ container_loopback | network_offset('0.0.0.' ~ rtr ~ '/32') }}"
+  {% for ip in range(4) %}
+    - "!create_or_update:address": "{{ container_loopback | network_offset('0.0.0.' ~ ip ~ '/32') }}"
       status__name: "Active"
       tenant__name: "Autocon3"
       role__name: "Loopback"
-      "!ref": "loopback-{{ rtr }}"
+      "!ref": "loopback-{{ ip }}"
   {% endfor %}
 
 
