@@ -112,9 +112,9 @@ locations:
     {% endfor %}
 
 ip_address_assignments:
-  - ip_address:
+  - "!create_or_update:ip_address":
       "!get:host": "10.0.32.0"
-    interface: "!ref:{{ site_name }}-RTR1:eth1"
+    "!create_or_update:interface": "!ref:{{ site_name }}-RTR1:eth1"
 
 dynamic_groups:
   - "!create_or_update:name": "{{ site_name }}"
