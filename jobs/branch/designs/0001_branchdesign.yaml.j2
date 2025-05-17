@@ -185,6 +185,13 @@ ip_address_assignments:
     "!create_or_update:interface": "!ref:{{ site_name }}-SW{{ ip + 1 }}:lo0"
 {% endfor %}
 
+# ----- L3LINKS -----
+{% for link in range(4) %}
+  - "!create_or_update:ip_address": "!ref:link-{{ link }}-rtr"
+    "!create_or_update:interface": "!ref:{{ site_name }}-RTR{{ link + 1 }}:eth{{ link + 1 }}"
+  - "!create_or_update:ip_address": "!ref:link-{{ link }}-sw"
+    "!create_or_update:interface": "!ref:{{ site_name }}-SW{{ link + 1 }}:eth{{ link + 1 }}"
+{% endfor %}
 
 
 dynamic_groups:
