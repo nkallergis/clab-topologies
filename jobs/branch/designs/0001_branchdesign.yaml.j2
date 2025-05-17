@@ -87,7 +87,7 @@ locations:
             ip_address_assignments:
               - "!create_or_update:ip_address":
                   "!create_or_update:address": "{{ container_loopback | network_offset('0.0.0.' ~ rtr ~ '/32') }}"
-                  status__name: "Active
+                  status__name: "Active"
     {% endfor %}
 
     # ----- Switches -----
