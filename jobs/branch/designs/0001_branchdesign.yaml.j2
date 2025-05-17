@@ -150,8 +150,6 @@ ip_addresses:
       status__name: "Active"
       tenant__name: "Autocon3"
       role__name: "Loopback"
-      device__name: "{{ site_name }}-RTR{{ rtr + 1 }}"
-      interface__name: "lo0"
       "!ref": "loopback-{{ rtr }}"
   {% endfor %}
 
