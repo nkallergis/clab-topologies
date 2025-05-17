@@ -63,7 +63,7 @@ locations:
             status__name: "Active"
             "!ref": "{{ site_name }}-RTR{{ rtr + 1 }}:eth{{ port + 1 }}"
             ip_address_assignments:
-              - ip_address:
+              - "!create_or_update:ip_address":
                   "!create_or_update:address": "{{ l3link[link] | network_offset('0.0.0.1/30') }}"
                   "status__name": "Active"
         {% endfor %}
