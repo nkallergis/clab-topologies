@@ -5,8 +5,13 @@ from netaddr import IPNetwork
 
 from nautobot_design_builder.errors import DesignValidationError
 from nautobot_design_builder.context import Context, context_file
+from nautobot_design_builder.jinja_filters import network_string, network_offset
+
 from nautobot.dcim.models import Location
+from nautobot.extras.models import Status
 from nautobot.ipam.models import Prefix
+
+BRANCH_SUPERNET_PREFIXLEN = 21
 
 @context_file("context.yaml")
 class BaseDataContext(Context):
@@ -18,16 +23,21 @@ class BranchDesignContext(Context):
 
     def get_next_prefix(self):
         """Get next available prefix."""
-        return "1.2.3.0/24"
+        status = Status.objects.get(name="Active")
+        base_prefix = Prefix.objects.get(prefix=self.base_prefix)
+        available_prefixess = base_prefix.get_available_prefixes().iter_cidrs()
+        filtered_available_prefixes = [p for p in available_prefixes if p.prefixlen <= BRANCH_SUPERNET_PREFIXLEN]
+        try:
+            return sorted(filtered_available_prefixes, reverse=True, key=lambda x: x.prefixlen)[0]
+        except IndexError:
+            raise DesignValidationError("Not enough IP space to create new branch!")
+            
 
     @property
-    def branch_prefixes(self):
+    def branch_supernet(self):
         """Calculate the branch prefixes."""
         try:
             location = Location.objects.get(name=self.site_name)
-            supernet = Prefix.objects.get(location=location, role__name="Branch:Supernet")
+            return Prefix.objects.get(location=location, role__name="Branch:Supernet")
         except ObjectDoesNotExist:
-            supernet = self.get_next_prefix()
-        return {
-            "supernet": supernet,
-        }
+            return self.get_next_prefix()

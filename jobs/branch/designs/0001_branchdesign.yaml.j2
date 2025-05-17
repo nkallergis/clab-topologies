@@ -5,7 +5,7 @@ locations:
     location_type__name: "Site"
     parent__name: "{{ region.name }}"
     prefixes:
-      - "!create_or_update:prefix": "{{ branch_prefixes['supernet'] }}"
+      - "!create_or_update:prefix": "{{ branch_supernet }}"
         type: "container"
         role__name: "Branch:Supernet"
         status__name: "Active"
