@@ -7,7 +7,6 @@
     aaa
     no aaa
     line
-    username
     role
     tacacs
   config_type: "cli"
