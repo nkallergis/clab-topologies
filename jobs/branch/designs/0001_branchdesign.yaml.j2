@@ -58,20 +58,20 @@ locations:
     {% endfor %}
 
 cables:
-  - termination_a: "!ref:{{ site_name }}-RTR0:eth1"
-    termination_b: "!ref:{{ site_name }}-RTR1:eth1"
+  - "!create_or_update:termination_a": "!ref:{{ site_name }}-RTR0:eth1"
+    "!create_or_update:termination_b": "!ref:{{ site_name }}-RTR1:eth1"
     status__name: "Connected"
-  - termination_a: "!ref:{{ site_name }}-RTR0:eth2"
-    termination_b: "!ref:{{ site_name }}-SW0:eth1"
+  - "!create_or_update:termination_a": "!ref:{{ site_name }}-RTR0:eth2"
+    "!create_or_update:termination_b": "!ref:{{ site_name }}-SW0:eth1"
     status__name: "Connected"
-  - termination_a: "!ref:{{ site_name }}-RTR0:eth3"
-    termination_b: "!ref:{{ site_name }}-SW1:eth1"
+  - "!create_or_update:termination_a": "!ref:{{ site_name }}-RTR0:eth3"
+    "!create_or_update:termination_b": "!ref:{{ site_name }}-SW1:eth1"
     status__name: "Connected"
-  - termination_a: "!ref:{{ site_name }}-RTR1:eth2"
-    termination_b: "!ref:{{ site_name }}-SW0:eth2"
+  - "!create_or_update:termination_a": "!ref:{{ site_name }}-RTR1:eth2"
+    "!create_or_update:termination_b": "!ref:{{ site_name }}-SW0:eth2"
     status__name: "Connected"
-  - termination_a: "!ref:{{ site_name }}-RTR1:eth3"
-    termination_b: "!ref:{{ site_name }}-SW1:eth2"
+  - "!create_or_update:termination_a": "!ref:{{ site_name }}-RTR1:eth3"
+    "!create_or_update:termination_b": "!ref:{{ site_name }}-SW1:eth2"
     status__name: "Connected"
 
 dynamic_groups:
