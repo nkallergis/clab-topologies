@@ -112,7 +112,7 @@ locations:
     {% endfor %}
 
 ip_address_assignments:
-  - ip_address: "!ref:loopback-0"
+  - "!get:ip_address": "10.0.32.0/32"
     interface: "!ref:{{ site_name }}-RTR1:eth1"
 
 dynamic_groups:
