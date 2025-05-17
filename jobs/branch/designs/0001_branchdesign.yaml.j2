@@ -186,11 +186,14 @@ ip_address_assignments:
 {% endfor %}
 
 # ----- L3LINKS -----
-{% for link in range(4) %}
+{% for rtr in range(2) %}
+{%   for sw in range(2) %}
+{%     set link = 2 * rtr + sw %}
   - "!create_or_update:ip_address": "!ref:link-{{ link }}-rtr"
-    "!create_or_update:interface": "!ref:{{ site_name }}-RTR{{ link + 1 }}:eth{{ link + 1 }}"
+    "!create_or_update:interface": "!ref:{{ site_name }}-RTR{{ rtr + 1 }}:eth{{ sw + 1 }}"
   - "!create_or_update:ip_address": "!ref:link-{{ link }}-sw"
-    "!create_or_update:interface": "!ref:{{ site_name }}-SW{{ link + 1 }}:eth{{ link + 1 }}"
+    "!create_or_update:interface": "!ref:{{ site_name }}-SW{{ sw + 1 }}:eth{{ rtr + 1 }}"
+{%   endfor %}
 {% endfor %}
 
 
