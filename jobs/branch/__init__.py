@@ -42,4 +42,4 @@ class BranchDesign(DesignJob):
         extensions = [ext.CableConnectionExtension]
 
 name = "Demo Designs"
-register_jobs(BranchDesign)
+register_jobs(BaseData, BranchDesign)
