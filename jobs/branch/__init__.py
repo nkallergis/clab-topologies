@@ -3,6 +3,7 @@ from nautobot.apps.jobs import register_jobs, StringVar, IPNetworkVar, ObjectVar
 
 from nautobot.dcim.models import Location
 
+from nautobot_design_builder.choices import DesignModeChoices
 from nautobot_design_builder.contrib import ext
 from nautobot_design_builder.design_job import DesignJob
 
@@ -35,6 +36,7 @@ class BranchDesign(DesignJob):
         """Metadata describing this design job."""
 
         name = "Branch Design"
+        design_mode = DesignModeChoices.DEPLOYMENT
         nautobot_version = ">=2"
         has_sensitive_variables = False
         extensions = [ext.CableConnectionExtension, ext.NextPrefixExtension]
