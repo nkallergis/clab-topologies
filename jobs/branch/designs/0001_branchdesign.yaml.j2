@@ -47,48 +47,56 @@ locations:
 
     devices:
     # ----- Routers -----
-    {% for rtr in range(1, 3) %}
-      - "!create_or_update:name": "{{ site_name }}-RTR{{ rtr }}"
+    {% for rtr in range(2) %}
+      - "!create_or_update:name": "{{ site_name }}-RTR{{ rtr + 1 }}"
         status__name: "Active"
         device_type__model: "Dummy"
         role__name: "Router"
         platform__name: "Arista EOS"
-        "!ref": "{{ site_name }}-RTR{{ rtr }}"
+        "!ref": "{{ site_name }}-RTR{{ rtr + 1 }}"
         interfaces:
+        {% for port in range(2) %}
+          {% set link = 2 * rtr + port %}
+          - "!create_or_update:name": "eth{{ port + 1 }}"
+            type: "1000base-t"
+            description: "Downlink to {{ site_name }}-SW{{ port + 1 }}"
+            status__name: "Active"
+            "!ref": "{{ site_name }}-RTR{{ rtr + 1 }}:eth{{ port + 1 }}"
+            ip_address_assignments:
+              - ip_address:
+                  "!create_or_update:address": "{{ l3link[link] | network_offset('0.0.0.1/30') }}"
+                  "status__name": "Active"
+        {% endfor %}
           - "!create_or_update:name": "eth8"
             type: "1000base-t"
             description: "Uplink to backbone"
             status__name: "Active"
-            "!ref": "{{ site_name }}-RTR{{ rtr }}:eth8"
-          {% for port in range(1, 3) %}
-          - "!create_or_update:name": "eth{{ port }}"
-            type: "1000base-t"
-            description: "Downlink to {{ site_name }}-SW{{ port }}"
+          - "!create_or_update:name": "lo0"
+            type: "virtual"
+            description: "Uplink to backbone"
             status__name: "Active"
-            "!ref": "{{ site_name }}-RTR{{ rtr }}:eth{{ port }}"
             ip_address_assignments:
               - ip_address:
-                  "!create_or_update:address": "{{ l3link[2 * (rtr - 1) + (port - 1)] | network_offset('0.0.0.1/30') }}"
+                  "!create_or_update:address": "{{ container_loopback | network_offset('0.0.0.' ~ rtr ~ '/30') }}"
                   "status__name": "Active"
-          {% endfor %}
     {% endfor %}
 
     # ----- Switches -----
-    {% for sw in range(1, 3) %}
-      - "!create_or_update:name": "{{ site_name }}-SW{{ sw }}"
+    {% for sw in range(2) %}
+      - "!create_or_update:name": "{{ site_name }}-SW{{ sw + 1 }}"
         status__name: "Active"
         device_type__model: "Dummy"
         role__name: "Switch"
         platform__name: "Arista EOS"
-        "!ref": "{{ site_name }}-SW{{ sw }}"
+        "!ref": "{{ site_name }}-SW{{ sw + 1 }}"
         interfaces:
-        {% for port in range(1, 3) %}
-          - "!create_or_update:name": "eth{{ port }}"
+        {% for port in range(2) %}
+          - "!create_or_update:name": "eth{{ port + 1 }}"
             type: "1000base-t"
-            description: "Uplink to RTR{{ port }}"
+            description: "Uplink to RTR{{ port + 1 }}"
             status__name: "Active"
             "!connect_cable":
-              to: "!ref:{{ site_name }}-RTR{{ port }}:eth{{ sw }}"
+              to: "!ref:{{ site_name }}-RTR{{ port + 1 }}:eth{{ sw + 1 }}"
               status__name: "Connected"
         {% endfor %}
     {% endfor %}
@@ -102,8 +110,8 @@ dynamic_groups:
     filter: {"location": ["{{ site_name }}"]} 
     
 circuits:
-  {% for i in range(1, 3) %}
-  - "!create_or_update:cid": "{{ site_name }}-CKT-{{ i }}"
+  {% for i in range(2) %}
+  - "!create_or_update:cid": "{{ site_name }}-CKT-{{ i + 1 }}"
     status__name: "Active"
     provider__name: "NTC"
     circuit_type__name: "Ethernet"
