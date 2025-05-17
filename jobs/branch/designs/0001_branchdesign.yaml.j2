@@ -4,7 +4,7 @@
 {% for link in range(4) %}
 {%   set link_offset = '0.0.0.' ~ (link * 4) ~ '/30' %}
 {%   set link_network = container_l3link | network_offset(link_offset) %}
-{%   set _ = l3link.update({link: link_network} %}
+{%   set _ = l3link.update({link: link_network}) %}
 {% endfor %}
 {% set lan_data = branch_supernet | network_offset('0.0.1.0/24') %}
 {% set lan_voice = branch_supernet | network_offset('0.0.2.0/24') %}
