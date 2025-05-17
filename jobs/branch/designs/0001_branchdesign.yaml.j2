@@ -49,7 +49,7 @@ locations:
             status__name: "Active"
             "!connect_cable":
               to: "!ref:{{ site_name }}-RTR{{ port }}:eth{{ sw }}"
-              status__name: "Active"
+              status__name: "Connected"
         {% endfor %}
     {% endfor %}
 
