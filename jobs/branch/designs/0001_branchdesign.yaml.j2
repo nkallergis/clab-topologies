@@ -40,7 +40,7 @@ locations:
         status__name: "Active"
         ip_addresses:
         {% for ip in range(4) %}
-          - "!create_or_update:address": "{{ l3link[link] | network_offset('0.0.0.' ~ ip ~ '/32' }}"
+          - "!create_or_update:address": "{{ l3link[link] | network_offset('0.0.0.' ~ ip ~ '/32') }}"
             status__name: "Active"
         {% endfor %}
       {% endfor %}
