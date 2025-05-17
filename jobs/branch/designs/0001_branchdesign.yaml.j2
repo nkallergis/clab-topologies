@@ -4,8 +4,10 @@ locations:
     status__name: "Active"
     location_type__name: "Site"
     parent__name: "{{ region.name }}"
-
-{% include "designs/0001_branchdesign.prefixes.yaml.j2 %}
+    prefixes:
+      - "!create_or_update:prefix": "10.10.10.0/24"
+        type: "container"
+        status__name: "Active"
 
     devices:
     # ----- Routers -----
