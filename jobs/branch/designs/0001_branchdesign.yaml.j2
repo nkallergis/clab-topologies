@@ -70,6 +70,6 @@ circuits:
     circuit_terminations:
       - "!create_or_update:term_side": "A"
         location__name: "{{ site_name }}"
-      - !create_or_update:term_side": "Z"
+      - "!create_or_update:term_side": "Z"
         provider_network__name: "NTC-WAN"
   {% endfor %}
