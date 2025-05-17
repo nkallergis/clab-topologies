@@ -12,3 +12,9 @@ class BaseDataContext(Context):
 @context_file("context.yaml")
 class BranchDesignContext(Context):
     """Render context for branch design."""
+
+    @property
+    def branch_prefixes(self):
+        return {
+            "supernet": "10.10.10.0/24"
+        }
