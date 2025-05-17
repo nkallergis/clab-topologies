@@ -42,3 +42,7 @@ roles:
 
 circuit_types:
   - "!create_or_update:name": "Ethernet"
+
+prefixes:
+  - "!create_or_update:prefix": "{{ base_prefix }}"
+    status__name: "Active"
