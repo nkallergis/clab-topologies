@@ -63,13 +63,13 @@ dynamic_groups:
     
 circuits:
   {% for i in range(1, 3) %}
-  - cid: "{{ site_name }}-CKT-{{ i }}"
+  - "!create_or_update:cid": "{{ site_name }}-CKT-{{ i }}"
     status__name: "Active"
     provider__name: "NTC"
     circuit_type__name: "Ethernet"
     circuit_terminations:
-      - term_side: "A"
+      - "!create_or_update:term_side": "A"
         location__name: "{{ site_name }}"
-      - term_side: "Z"
+      - !create_or_update:term_side": "Z"
         provider_network__name: "NTC-WAN"
   {% endfor %}
