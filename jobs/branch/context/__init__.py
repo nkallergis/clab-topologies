@@ -25,7 +25,7 @@ class BranchDesignContext(Context):
         """Get next available prefix."""
         status = Status.objects.get(name="Active")
         base_prefix = Prefix.objects.get(prefix=self.base_prefix)
-        available_prefixess = base_prefix.get_available_prefixes().iter_cidrs()
+        available_prefixes = base_prefix.get_available_prefixes().iter_cidrs()
         filtered_available_prefixes = [p for p in available_prefixes if p.prefixlen <= BRANCH_SUPERNET_PREFIXLEN]
         try:
             return sorted(filtered_available_prefixes, reverse=True, key=lambda x: x.prefixlen)[0]
