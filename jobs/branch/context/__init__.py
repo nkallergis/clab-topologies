@@ -39,6 +39,6 @@ class BranchDesignContext(Context):
         """Calculate the branch prefixes."""
         try:
             location = Location.objects.get(name=self.site_name)
-            return Prefix.objects.get(location=location, role__name="Branch:Supernet")
+            return str(Prefix.objects.get(location=location, role__name="Branch:Supernet"))
         except ObjectDoesNotExist:
             return self.get_next_prefix()
