@@ -1,12 +1,12 @@
 ---
 locations:
-  - name: "{{ site_name }}"
+  - "!create_or_update:name": "{{ site_name }}"
     status__name: "Active"
     location_type__name: "Site"
     parent__name: "{{ region.name }}"
 
     prefixes:
-      - prefix: "{{ site_prefix }}"
+      - "!create_or_update:prefix": "{{ site_prefix }}"
         status__name: "Active"
 
     devices:
