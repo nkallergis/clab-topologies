@@ -27,13 +27,13 @@ locations:
         role__name: "Branch:Loopback"
         status__name: "Active"
         tenant__name: "Autocon3"
-        ip_addresses:
-        {% for ip in range(4) %}
-          - "!create_or_update:address": "{{ container_loopback | network_offset('0.0.0.' ~ ip ~ '/32') }}"
-            status__name: "Active"
-            tenant__name: "Autocon3"
-            "!ref": "loopback-{{ ip }}"
-        {% endfor %}
+        # ip_addresses:
+        # {% for ip in range(4) %}
+        #   - "!create_or_update:address": "{{ container_loopback | network_offset('0.0.0.' ~ ip ~ '/32') }}"
+        #     status__name: "Active"
+        #     tenant__name: "Autocon3"
+        #     "!ref": "loopback-{{ ip }}"
+        # {% endfor %}
       - "!create_or_update:prefix": "{{ container_l3link }}"
         type: "container"
         role__name: "Branch:L3Link"
@@ -45,12 +45,12 @@ locations:
         role__name: "Branch:L3Link"
         status__name: "Active"
         tenant__name: "Autocon3"
-        ip_addresses:
-        {% for ip in range(4) %}
-          - "!create_or_update:address": "{{ l3link[link] | network_offset('0.0.0.' ~ ip ~ '/32') }}"
-            status__name: "Active"
-            tenant__name: "Autocon3"
-        {% endfor %}
+        # ip_addresses:
+        # {% for ip in range(4) %}
+        #   - "!create_or_update:address": "{{ l3link[link] | network_offset('0.0.0.' ~ ip ~ '/32') }}"
+        #     status__name: "Active"
+        #     tenant__name: "Autocon3"
+        # {% endfor %}
       {% endfor %}
       - "!create_or_update:prefix": "{{ lan_data }}"
         description: "Data LAN"
@@ -141,6 +141,23 @@ locations:
               status__name: "Connected"
         {% endfor %}
     {% endfor %}
+
+ip_addresses:
+  # ----- LOOPBACKS -----
+  {% for rtr in range(2) %}
+    - "!create_or_update:address": "{{ container_loopback | network_offset('0.0.0.' ~ rtr ~ '/32') }}"
+      status__name: "Active"
+      tenant__name: "Autocon3"
+      role__name: "Loopback"
+      device__name: "{{ site_name }}-RTR{{ rtr + 1 }}"
+      interface__name: "lo0"
+      "!ref": "loopback-{{ rtr }}"
+  {% endfor %}
+
+  # # ----- L3LINKS -----
+  # {% for link in range(4) %}
+  #   - "!create_or_update:address": "{{ l3link[link] | network_offset('
+
 
 # ip_address_assignments:
 # # ----- LOOPBACKS -----
