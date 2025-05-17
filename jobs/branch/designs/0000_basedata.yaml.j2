@@ -1,0 +1,37 @@
+---
+providers:
+  - "!create_or_update:name": "NTC"
+    provider_networks:
+      - "!create_or_update:name": "NTC-WAN"
+
+location_types:
+  - "!create_or_update:name": "Region"
+    children:
+      - "!create_or_update:name": "Site"
+        content_types:
+          - { "!get:model": "device" }
+          - { "!get:model": "rack" }
+          - { "!get:model": "prefix" }
+          - { "!get:model": "vlan" }
+          - { "!get:model": "vlangroup" }
+          - { "!get:model": "circuittermination" }
+
+locations:
+  - "!create_or_update:name": "Prague"
+    location_type__name: "Region"
+    status__name: "Active"
+
+manufacturers:
+  - "!create_or_update:name": "Arista"
+  platforms:
+    - "!create_or_update:name": "Arista EOS"
+  device_types:
+    - "!create_or_update:model": "Dummy"
+
+roles:
+  - "!create_or_update:name": "Router"
+    content_types:
+      - { "!get:model": "device" }
+  - "!create_or_update:name": "Switch"
+    content_types:
+      - { "!get:model": "device" }

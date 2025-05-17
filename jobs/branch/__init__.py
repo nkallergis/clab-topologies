@@ -17,7 +17,7 @@ class BaseData(DesignJob):
         name = "Base Data"
         nautobot_version = ">=2"
         has_sensitive_variables = False
-        design_file = "designs/0000_design.yaml.j2"
+        design_file = "designs/0000_basedata.yaml.j2"
         context_class = BaseDataContext
 
 class BranchDesign(DesignJob):
@@ -39,7 +39,7 @@ class BranchDesign(DesignJob):
         nautobot_version = ">=2"
         has_sensitive_variables = False
         extensions = [ext.CableConnectionExtension]
-        design_file = "designs/0001_design.yaml.j2"
+        design_file = "designs/0001_branchdesign.yaml.j2"
         context_class = BranchDesignContext
 
 name = "Demo Designs"
