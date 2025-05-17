@@ -14,7 +14,6 @@ locations:
         role__name: "Branch:Loopback"
         status__name: "Active"
         "!ref": "container_loopback"
-
       - "!create_or_update:prefix": "{{ branch_supernet | network_offset('0.0.0.64/26') }}"
         type: "container"
         role__name: "Branch:L3Link"
@@ -26,13 +25,14 @@ locations:
         status__name: "Active"
         "!ref": "l3link-{{ link + 1 }}"
       {% endfor %}
-
       - "!create_or_update:prefix": "{{ branch_supernet | network_offset('0.0.1.0/24') }}"
+        description: "Data LAN"
         type: "network"
         role__name: "Branch:LAN"
         status__name: "Active"
         "!ref": "lan_data"
       - "!create_or_update:prefix": "{{ branch_supernet | network_offset('0.0.2.0/24') }}"
+        description: "Voice LAN"
         type: "network"
         role__name: "Branch:LAN"
         status__name: "Active"
@@ -59,6 +59,10 @@ locations:
             description: "Downlink to {{ site_name }}-SW{{ port }}"
             status__name: "Active"
             "!ref": "{{ site_name }}-RTR{{ rtr }}:eth{{ port }}"
+            ip_address_assignments:
+              - ip_address:
+                  "!create_or_update:address": "{{ !ref:l3link-{{ 2 * (rtr - 1) + port }} | network_offset('0.0.0.1/30' }}"
+                  "status__name": "Active"
           {% endfor %}
     {% endfor %}
 
