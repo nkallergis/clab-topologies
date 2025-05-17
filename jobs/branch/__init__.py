@@ -36,6 +36,8 @@ class BranchDesign(DesignJob):
         """Metadata describing this design job."""
 
         name = "Branch Design"
+        version = "1.0"
+        description = "A basic design for new branches."
         design_mode = DesignModeChoices.DEPLOYMENT
         nautobot_version = ">=2"
         has_sensitive_variables = False
