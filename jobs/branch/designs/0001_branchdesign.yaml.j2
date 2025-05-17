@@ -64,6 +64,7 @@ locations:
         device_type__model: "Dummy"
         role__name: "Router"
         platform__name: "Arista EOS"
+        secrets_group__name: "DEVICE_CREDENTIALS"
         "!ref": "{{ site_name }}-RTR{{ rtr + 1 }}"
         interfaces:
         {% for port in range(2) %}
@@ -99,6 +100,7 @@ locations:
         device_type__model: "Dummy"
         role__name: "Switch"
         platform__name: "Arista EOS"
+        secrets_group__name: "DEVICE_CREDENTIALS"
         "!ref": "{{ site_name }}-SW{{ sw + 1 }}"
         interfaces:
         {% for port in range(2) %}
