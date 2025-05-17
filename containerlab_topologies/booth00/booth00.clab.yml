@@ -1,0 +1,23 @@
+---
+name: booth00
+
+topology:
+  kinds:
+    ceos:
+      image: ceos:4.32.1F
+  nodes:
+    booth00-RTR1:
+      kind: ceos
+    booth00-RTR2:
+      kind: ceos
+    booth00-SW1:
+      kind: ceos
+    booth00-SW2:
+      kind: ceos
+  
+  links:
+    - endpoints: ["booth00-SW1:eth1", "booth00-RTR1:eth1"]
+    - endpoints: ["booth00-SW1:eth2", "booth00-RTR2:eth1"]
+    - endpoints: ["booth00-SW2:eth2", "booth00-RTR2:eth2"]
+    - endpoints: ["booth00-SW2:eth1", "booth00-RTR1:eth2"]
+  
