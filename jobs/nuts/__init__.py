@@ -65,9 +65,10 @@ class NutJob(Job):
                 "duration": full_report.get("duration"),
                 "exitcode": full_report.get("exitcode"),
                 "summary": full_report.get("summary"),
+                "result": {},
             }
             for result in ["error", "failed", "passed"]:
-                report[result] = [
+                report["result"][result] = [
                     test.get("nodeid") for test in full_report.get("tests") if test.get("outcome") == result
                 ]
             return report
