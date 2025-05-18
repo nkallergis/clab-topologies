@@ -9,7 +9,8 @@ import pytest
 
 from nautobot.apps.jobs import Job, register_jobs
 
-name = "AUTOCON3"   # pylint: disable=invalid-name
+name = "AUTOCON3"  # pylint: disable=invalid-name
+
 
 class NutJob(Job):
     """A job to run NUTS tests."""
@@ -24,7 +25,7 @@ class NutJob(Job):
     def run(self, **data):  # pylint: disable=arguments-differ
         """Run NUTS tests."""
         self.logger.info("Running NUTS tests...")
-        
+
         # Set up the paths
         pwd = Path(__file__).parent
         tests_path = pwd / "tests"
@@ -43,7 +44,8 @@ class NutJob(Job):
             pytest.main(
                 [
                     tests_path,
-                    "-p", "no:all",
+                    "-p",
+                    "no:all",
                     "--json-report",
                     f"--json-report-file={report_path}",
                 ]
@@ -64,9 +66,9 @@ class NutJob(Job):
                 "exitcode": full_report.get("exitcode"),
                 "summary": full_report.get("summary"),
             }
-            if report.get("summary").get("failed"):
-                report["failed"] = [
-                    test.get("nodeid") for test in full_report.get("tests") if test.get("outcome") == "failed"
+            for result in ["error", "failed", "passed"]:
+                report[result] = [
+                    test.get("nodeid") for test in full_report.get("tests") if test.get("outcome") == result
                 ]
             return report
         self.logger.error("Report was not generated!")
