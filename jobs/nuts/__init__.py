@@ -103,8 +103,8 @@ class NutJob(Job):
                 (device.name, remoteloopbacks)
             )
         generate_test_file(
-            template_filename="test_ping_connected.yaml.j2",
-            output_filename="tests/test_ping_connected.yaml",
+            template_filename="test_ping_loopbacks.yaml.j2",
+            output_filename="tests/test_ping_loopbacks.yaml",
             topology=topology,
             device_remoteloopbacks=device_remoteloopbacks,
         )
