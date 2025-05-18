@@ -73,6 +73,22 @@ class NutJob(Job):
             output_path.unlink()
         output_path.write_text(output)
 
+        # Generate tests/test_ospf_adj.yaml
+        pwd = Path(__file__).parent
+        template_path = pwd / "templates"
+        template_file = "test_ospf_adj.yaml.j2"
+        env = Environment(
+            loader=FileSystemLoader(template_path),
+            trim_blocks=True,
+            lstrip_blocks=True,
+        )
+        template = env.get_template(template_file)
+        output = template.render(topology=topology, nodes=nodes)
+        output_path = pwd / "tests/test_ospf_adj.yaml"
+        if output_path.exists():
+            output_path.unlink()
+        output_path.write_text(output)
+
 
 
     def run(self, topology: Topology):  # pylint: disable=arguments-differ
