@@ -66,7 +66,7 @@ class NutJob(Job):
             }
             if report.get("summary").get("failed"):
                 report["failed"] = [
-                    test for test in full_report.get("tests") if test.get("outcome") == "failed"
+                    test.get("nodeid") for test in full_report.get("tests") if test.get("outcome") == "failed"
                 ]
             return report
         self.logger.error("Report was not generated!")
