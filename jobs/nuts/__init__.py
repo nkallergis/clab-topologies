@@ -14,6 +14,21 @@ from containerlab.models import Topology
 
 name = "AUTOCON3"  # pylint: disable=invalid-name
 
+def generate_test_file(template_filename: str, output_filename: str, topology: Topology, **kwargs):
+    """Generate a test file from a Jinja2 template."""
+    pwd = Path(__file__).parent
+    template_path = pwd / "templates"
+    env = Environment(
+    loader=FileSystemLoader(template_path),
+    trim_blocks=True,
+    lstrip_blocks=True,
+    )
+    template = env.get_template(template_filename)
+    output = template.render(topology=topology, **kwargs)
+    output_path = pwd / output_filename
+    if output_path.exists():
+        output_path.unlink()
+    output_path.write_text(output)
 
 class NutJob(Job):
     """A job to run NUTS tests."""
@@ -41,53 +56,59 @@ class NutJob(Job):
             return {}
         nodes = [device.name for device in devices]
         
-        # Generate inventory/hosts.yaml
-        pwd = Path(__file__).parent
-        template_path = pwd / "templates"
-        template_file = "hosts.yaml.j2"
-        env = Environment(
-            loader=FileSystemLoader(template_path),
-            trim_blocks=True,
-            lstrip_blocks=True,
+        generate_test_file(
+            template_filename="hosts.yaml.j2",
+            output_filename="inventory/hosts.yaml",
+            topology=topology,
+            nodes=nodes,
         )
-        template = env.get_template(template_file)
-        output = template.render(topology=topology, nodes=nodes)
-        output_path = pwd / "inventory/hosts.yaml"
-        if output_path.exists():
-            output_path.unlink()
-        output_path.write_text(output)
 
-        # Generate tests/test_lldp_adj.yaml
-        pwd = Path(__file__).parent
-        template_path = pwd / "templates"
-        template_file = "test_lldp_adj.yaml.j2"
-        env = Environment(
-            loader=FileSystemLoader(template_path),
-            trim_blocks=True,
-            lstrip_blocks=True,
+        generate_test_file(
+            template_filename="test_lldp_adj.yaml.j2",
+            output_filename="tests/test_lldp_adj.yaml",
+            topology=topology,
+            nodes=nodes,
         )
-        template = env.get_template(template_file)
-        output = template.render(topology=topology, nodes=nodes)
-        output_path = pwd / "tests/test_lldp_adj.yaml"
-        if output_path.exists():
-            output_path.unlink()
-        output_path.write_text(output)
 
-        # Generate tests/test_ospf_adj.yaml
-        pwd = Path(__file__).parent
-        template_path = pwd / "templates"
-        template_file = "test_ospf_adj.yaml.j2"
-        env = Environment(
-            loader=FileSystemLoader(template_path),
-            trim_blocks=True,
-            lstrip_blocks=True,
+        generate_test_file(
+            template_filename="test_ospf_adj.yaml.j2",
+            output_filename="tests/test_ospf_adj.yaml",
+            topology=topology,
+            nodes=nodes,
         )
-        template = env.get_template(template_file)
-        output = template.render(topology=topology, nodes=nodes)
-        output_path = pwd / "tests/test_ospf_adj.yaml"
-        if output_path.exists():
-            output_path.unlink()
-        output_path.write_text(output)
+
+        # # Generate inventory/hosts.yaml
+        # pwd = Path(__file__).parent
+        # template_path = pwd / "templates"
+        # template_file = "hosts.yaml.j2"
+        # env = Environment(
+        #     loader=FileSystemLoader(template_path),
+        #     trim_blocks=True,
+        #     lstrip_blocks=True,
+        # )
+        # template = env.get_template(template_file)
+        # output = template.render(topology=topology, nodes=nodes)
+        # output_path = pwd / "inventory/hosts.yaml"
+        # if output_path.exists():
+        #     output_path.unlink()
+        # output_path.write_text(output)
+
+        # # Generate tests/test_lldp_adj.yaml
+        # pwd = Path(__file__).parent
+        # template_path = pwd / "templates"
+        # template_file = "test_lldp_adj.yaml.j2"
+        # env = Environment(
+        #     loader=FileSystemLoader(template_path),
+        #     trim_blocks=True,
+        #     lstrip_blocks=True,
+        # )
+        # template = env.get_template(template_file)
+        # output = template.render(topology=topology, nodes=nodes)
+        # output_path = pwd / "tests/test_lldp_adj.yaml"
+        # if output_path.exists():
+        #     output_path.unlink()
+        # output_path.write_text(output)
+
 
 
 
