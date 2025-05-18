@@ -18,6 +18,7 @@ class BaseData(DesignJob):
         """Metadata for the BaseData design."""
 
         name = "Base Data"
+        description = "Load Nautobot base data."
         nautobot_version = ">=2"
         has_sensitive_variables = False
         design_file = "designs/0000_basedata.yaml.j2"
@@ -39,6 +40,7 @@ class BranchDesign(DesignJob):
 
         design_mode = DesignModeChoices.DEPLOYMENT
         name = "Branch Design"
+        description = "Create a new branch site."
         version = "1.0"
         docs = "A basic design for new branches."
         nautobot_version = ">=2"
