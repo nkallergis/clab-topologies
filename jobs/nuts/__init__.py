@@ -7,13 +7,21 @@ from pathlib import Path
 
 import pytest
 
-from nautobot.apps.jobs import Job, register_jobs
+from nautobot.apps.jobs import Job, ObjectVar, register_jobs
+
+from containerlab.models import Topology
 
 name = "AUTOCON3"  # pylint: disable=invalid-name
 
 
 class NutJob(Job):
     """A job to run NUTS tests."""
+
+    topology = ObjectVar(
+        description="The topology to use for the tests.",
+        model=Topology,
+        required=True,
+    )
 
     class Meta:
         """Metadata for the NutJob."""
@@ -25,6 +33,8 @@ class NutJob(Job):
     def run(self, **data):  # pylint: disable=arguments-differ
         """Run NUTS tests."""
         self.logger.info("Running NUTS tests...")
+
+
 
         # Set up the paths
         pwd = Path(__file__).parent

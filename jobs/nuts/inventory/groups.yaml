@@ -1,14 +1,10 @@
 ---
 eos:
   username: admin
-  password: admin  # Consider using a transform_function: e.g. https://github.com/nornir-automation/nornir_utils/blob/master/docs/html/tutorials/load_credentials.ipynb
+  password: admin
   platform: eos
   connection_options:
     napalm:
       extras:
         optional_args:
           transport: ssh
-    netmiko:
-      extras:
-        session_log: arista-eos-demo-01.log
-        session_log_file_mode: append
