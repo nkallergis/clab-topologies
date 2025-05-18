@@ -1,6 +1,8 @@
 """Module to run NUTS tests from Nautobot."""
 
+import io
 import json
+import sys
 from pathlib import Path
 
 import pytest
@@ -29,17 +31,27 @@ class NutJob(Job):
         report_path = pwd / "report.json"
         if report_path.exists():
             report_path.unlink()
-        
-        # Run the tests
-        # result = pytest.main(["-q", "--disable-warnings", pwd / "tests"])
-        result = pytest.main(
-            [
-                tests_path,
-                "-p", "no:all",
-                "--json-report",
-                f"--json-report-file={report_path}",
-            ]
-        )
+
+        # Temporarily disable stdout and stderr to avoid cluttering the Nautobot logs
+        original_stdout = sys.stdout
+        original_stderr = sys.stderr
+        sys.stdout = io.StringIO()
+        sys.stderr = io.StringIO()
+
+        try:
+            # Run the tests
+            result = pytest.main(
+                [
+                    tests_path,
+                    "-p", "no:all",
+                    "--json-report",
+                    f"--json-report-file={report_path}",
+                ]
+            )
+        finally:
+            # Restore stdout and stderr
+            sys.stdout = original_stdout
+            sys.stderr = original_stderr
 
         # Read the result, return the report
         if report_path.exists():
