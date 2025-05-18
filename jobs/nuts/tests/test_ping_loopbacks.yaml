@@ -16,11 +16,6 @@
       destination: 10.0.0.3
       expected: SUCCESS
       max_drop: 2
-    # === MEANT TO FAIL ===
-    - host: clab-wsd2-wsd2-rtr1
-      destination: 10.0.0.99
-      expected: SUCCESS
-      max_drop: 2
 
     - host: clab-wsd2-wsd2-rtr2
       destination: 10.0.0.0
