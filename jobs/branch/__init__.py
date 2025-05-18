@@ -9,6 +9,8 @@ from nautobot_design_builder.design_job import DesignJob
 
 from .context import BaseDataContext, BranchDesignContext
 
+name = "AUTOCON3"
+
 class BaseData(DesignJob):
     """Load base data."""
 
@@ -45,5 +47,4 @@ class BranchDesign(DesignJob):
         design_file = "designs/0001_branchdesign.yaml.j2"
         context_class = BranchDesignContext
 
-name = "Demo Designs"
 register_jobs(BaseData, BranchDesign)
