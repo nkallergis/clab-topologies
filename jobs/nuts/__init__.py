@@ -68,7 +68,7 @@ class NutJob(Job):
         )
         template = env.get_template(template_file)
         output = template.render(topology=topology, nodes=nodes)
-        output_path = pwd / "inventory/test_lldp_adj.yaml"
+        output_path = pwd / "tests/test_lldp_adj.yaml"
         if output_path.exists():
             output_path.unlink()
         output_path.write_text(output)
