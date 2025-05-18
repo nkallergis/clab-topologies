@@ -1,11 +1,13 @@
 """Module to run NUTS tests from Nautobot."""
 
-import pytest
+import json
 from pathlib import Path
+
+import pytest
 
 from nautobot.apps.jobs import Job, register_jobs
 
-name = "AUTOCON3"
+name = "AUTOCON3"   # pylint: disable=invalid-name
 
 class NutJob(Job):
     """A job to run NUTS tests."""
@@ -17,15 +19,36 @@ class NutJob(Job):
         description = "A job to run NUTS tests."
         has_sensitive_variables = False
 
-    def run(self, **data):
+    def run(self, **data):  # pylint: disable=arguments-differ
         """Run NUTS tests."""
         self.logger.info("Running NUTS tests...")
         
+        # Set up the paths
         pwd = Path(__file__).parent
-        log_level = self.logger.level
-        self.logger.setLevel("ERROR")
-        result = pytest.main(["-q", "--disable-warnings", pwd / "tests"])
-        self.logger.setLevel(log_level)
-        return result
+        tests_path = pwd / "tests"
+        report_path = pwd / "report.json"
+        if report_path.exists():
+            report_path.unlink()
+        
+        # Run the tests
+        # result = pytest.main(["-q", "--disable-warnings", pwd / "tests"])
+        result = pytest.main(
+            [
+                tests_path,
+                "--json-report",
+                f"--json-report-file={report_path}",
+                "-p",
+                "no:terminal",
+            ]
+        )
+
+        # Read the result, return the report
+        if report_path.exists():
+            report = json.loads(report_path.read_text())
+            return result, report
+        else:
+            self.logger.error("Report file was not generated!")
+            return result, {}
+
 
 register_jobs(NutJob)
