@@ -28,7 +28,7 @@ class NutJob(Job):
         # Set up the paths
         pwd = Path(__file__).parent
         tests_path = pwd / "tests"
-        report_path = pwd / "report.json"
+        report_path = pwd / ".report.json"
         if report_path.exists():
             report_path.unlink()
 
@@ -40,7 +40,7 @@ class NutJob(Job):
 
         try:
             # Run the tests
-            result = pytest.main(
+            pytest.main(
                 [
                     tests_path,
                     "-p", "no:all",
@@ -56,9 +56,10 @@ class NutJob(Job):
         # Read the result, return the report
         if report_path.exists():
             report = json.loads(report_path.read_text())
-            return result, report
+            self.create_file("report.json", report)
+            return report["summary"]
         self.logger.error("Report file was not generated!")
-        return result, {}
+        return {}
 
 
 register_jobs(NutJob)
