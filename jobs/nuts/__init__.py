@@ -46,9 +46,8 @@ class NutJob(Job):
         if report_path.exists():
             report = json.loads(report_path.read_text())
             return result, report
-        else:
-            self.logger.error("Report file was not generated!")
-            return result, {}
+        self.logger.error("Report file was not generated!")
+        return result, {}
 
 
 register_jobs(NutJob)
