@@ -11,6 +11,7 @@ from jinja2 import Environment, FileSystemLoader
 from nautobot.apps.jobs import Job, ObjectVar, register_jobs
 from nautobot.dcim.models import Interface
 from nautobot.extras.models import Role
+from nautobot.ipam.models import IPAddress
 
 from containerlab.models import Topology
 
@@ -80,14 +81,32 @@ class NutJob(Job):
         )
 
         device_peers = []
+        role = Role.objects.get(name='Branch:L3Link')
         for device in devices:
-            for interface in Interface.objects.filter(device=device, role=Role.objects.get(name='Branch:L3Link')):
-                device_peers.append((device.name, interface.ip_addresses.first().siblings().first().host))
+            for interface in Interface.objects.filter(device=device, role=role):
+                device_peers.append(
+                    (device.name, interface.ip_addresses.first().siblings().first().host)
+                )
         generate_test_file(
             template_filename="test_ping_connected.yaml.j2",
             output_filename="tests/test_ping_connected.yaml",
             topology=topology,
             device_peers=device_peers,
+        )
+
+        device_remoteloopbacks = []
+        role = Role.objects.get(name='Branch:Loopback')
+        for device in devices:
+            loopback_interface = Interface.objects.get(device=device, role=role)
+            remoteloopbacks = [rl.host for rl in loopback_interface.ip_addresses.first().siblings()]
+            device_remoteloopbacks.append(
+                (device.name, remoteloopbacks)
+            )
+        generate_test_file(
+            template_filename="test_ping_connected.yaml.j2",
+            output_filename="tests/test_ping_connected.yaml",
+            topology=topology,
+            device_remoteloopbacks=device_remoteloopbacks,
         )
 
     def run(self, topology: Topology):  # pylint: disable=arguments-differ
