@@ -1,0 +1,7 @@
+---
+{% for node in nodes %}
+clab-{{ topology.name }}-{{ node }}:
+  hostname: clab-{{ topology.name }}-{{ node }}
+  groups:
+    - eos
+{% endfor %}

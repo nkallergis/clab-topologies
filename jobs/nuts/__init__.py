@@ -3,6 +3,7 @@
 import io
 import json
 import sys
+from jinja2 import Environment, FileSystemLoader
 from pathlib import Path
 
 import pytest
@@ -30,11 +31,37 @@ class NutJob(Job):
         description = "A job to run NUTS tests."
         has_sensitive_variables = False
 
-    def run(self, **data):  # pylint: disable=arguments-differ
+    def tests_constructor(self, topology: Topology):
+        """Generate NUTS tests from the topology."""
+
+        # Get devices from the topology
+        devices = topology.dynamic_group.members.all()
+        if not devices:
+            self.logger.error("No devices found in the topology.")
+            return {}
+        nodes = [device.name for device in devices]
+        
+        # Generate hosts.yaml
+        pwd = Path(__file__).parent
+        template_path = pwd / "templates"
+        template_file = "hosts.yaml.j2"
+        env = Environment(
+            loader=FileSystemLoader(template_path),
+            trim_blocks=True,
+            lstrip_blocks=True,
+        )
+        template = env.get_template(template_file)
+        output = template.render(topology=topology, nodes=nodes)
+        output_path = pwd / "inventory/hosts.yaml"
+        output_path.write_text(output)
+
+    def run(self, topology: Topology):  # pylint: disable=arguments-differ
         """Run NUTS tests."""
+
+        # Construct the tests
+        self.tests_constructor(topology)
+
         self.logger.info("Running NUTS tests...")
-
-
 
         # Set up the paths
         pwd = Path(__file__).parent
