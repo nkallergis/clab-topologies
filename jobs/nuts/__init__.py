@@ -3,12 +3,14 @@
 import io
 import json
 import sys
-from jinja2 import Environment, FileSystemLoader
 from pathlib import Path
 
 import pytest
+from jinja2 import Environment, FileSystemLoader
 
 from nautobot.apps.jobs import Job, ObjectVar, register_jobs
+from nautobot.dcim.models import Interface
+from nautobot.extras.models import Role
 
 from containerlab.models import Topology
 
@@ -77,6 +79,16 @@ class NutJob(Job):
             nodes=nodes,
         )
 
+        device_peers = []
+        for device in devices:
+            for interface in Interface.objects.filter(device=device, role=Role.objects.get(name='Branch:L3Link')):
+                device_peers.append((device.name, interface.ip_addresses.first().siblings().first().host))
+        generate_test_file(
+            template_filename="test_ping_connected.yaml.j2",
+            output_filename="tests/test_ping_connected.yaml",
+            topology=topology,
+            device_peers=device_peers,
+        )
 
     def run(self, topology: Topology):  # pylint: disable=arguments-differ
         """Run NUTS tests."""
