@@ -35,10 +35,9 @@ class NutJob(Job):
         result = pytest.main(
             [
                 tests_path,
+                "-p", "no:all",
                 "--json-report",
                 f"--json-report-file={report_path}",
-                "-p",
-                "no:terminal",
             ]
         )
 
