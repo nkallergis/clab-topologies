@@ -6,22 +6,22 @@ topology:
     ceos:
       image: ceos:4.32.1F
   nodes:
-    wsd2-RTR1:
+    wsd2-rtr1:
       kind: ceos
-      startup-config: https://raw.githubusercontent.com/nkallergis/clab-topologies/refs/heads/main/gc_intended/wsd2-RTR1.cfg
-    wsd2-RTR2:
+      startup-config: https://raw.githubusercontent.com/nkallergis/clab-topologies/refs/heads/main/gc_intended/wsd2-rtr1.cfg
+    wsd2-rtr2:
       kind: ceos
-      startup-config: https://raw.githubusercontent.com/nkallergis/clab-topologies/refs/heads/main/gc_intended/wsd2-RTR2.cfg
-    wsd2-SW1:
+      startup-config: https://raw.githubusercontent.com/nkallergis/clab-topologies/refs/heads/main/gc_intended/wsd2-rtr2.cfg
+    wsd2-sw1:
       kind: ceos
-      startup-config: https://raw.githubusercontent.com/nkallergis/clab-topologies/refs/heads/main/gc_intended/wsd2-SW1.cfg
-    wsd2-SW2:
+      startup-config: https://raw.githubusercontent.com/nkallergis/clab-topologies/refs/heads/main/gc_intended/wsd2-sw1.cfg
+    wsd2-sw2:
       kind: ceos
-      startup-config: https://raw.githubusercontent.com/nkallergis/clab-topologies/refs/heads/main/gc_intended/wsd2-SW2.cfg
+      startup-config: https://raw.githubusercontent.com/nkallergis/clab-topologies/refs/heads/main/gc_intended/wsd2-sw2.cfg
   
   links:
-    - endpoints: ["wsd2-SW2:Ethernet2", "wsd2-RTR2:Ethernet2"]
-    - endpoints: ["wsd2-SW2:Ethernet1", "wsd2-RTR1:Ethernet2"]
-    - endpoints: ["wsd2-SW1:Ethernet1", "wsd2-RTR1:Ethernet1"]
-    - endpoints: ["wsd2-SW1:Ethernet2", "wsd2-RTR2:Ethernet1"]
+    - endpoints: ["wsd2-sw2:eth1", "wsd2-rtr1:eth2"]
+    - endpoints: ["wsd2-sw1:eth1", "wsd2-rtr1:eth1"]
+    - endpoints: ["wsd2-sw1:eth2", "wsd2-rtr2:eth1"]
+    - endpoints: ["wsd2-sw2:eth2", "wsd2-rtr2:eth2"]
   
