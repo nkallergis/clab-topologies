@@ -12,15 +12,14 @@ class NutJob(Job):
     class Meta:
         """Metadata for the NutJob."""
 
-        name = "NUTS Job"
-        description = "A job to test NUTS."
+        name = "NUTS tests"
+        description = "A job to run NUTS tests."
         has_sensitive_variables = False
 
     def run(self, **data):
-        """Run the NUTS tests."""
-        # This is where you would run your NUTS tests
-        # For now, we'll just print a message
+        """Run NUTS tests."""
         self.logger.info("Running NUTS tests...")
-        return True
+        result = pytest.main(["-q", "--disable-warnings", "tests/*"])
+        return result
 
 register_jobs(NutJob)

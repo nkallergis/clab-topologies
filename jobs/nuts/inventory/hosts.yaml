@@ -1,0 +1,17 @@
+---
+clab-wsd2-wsd2-rtr1:
+  hostname: clab-wsd2-wsd2-rtr1
+  groups:
+    - eos
+clab-wsd2-wsd2-rtr2:
+  hostname: clab-wsd2-wsd2-rtr2
+  groups:
+    - eos
+clab-wsd2-wsd2-sw1:
+  hostname: clab-wsd2-wsd2-sw1
+  groups:
+    - eos
+clab-wsd2-wsd2-sw2:
+  hostname: clab-wsd2-wsd2-sw2
+  groups:
+    - eos
