@@ -22,7 +22,9 @@ class NutJob(Job):
         self.logger.info("Running NUTS tests...")
         pwd = Path(__file__).parent
         self.logger.info(f"Current working directory: {pwd}")
-        result = pytest.main(["--disable-warnings", pwd / "tests"])
-        return result
+        result = pytest.main(["-q", "--disable-warnings", pwd / "tests"])
+        from pprint import pprint
+        pprint(result)
+        return 
 
 register_jobs(NutJob)
