@@ -81,6 +81,7 @@ locations:
             type: "1000base-t"
             description: "Downlink to {{ site_name }}-sw{{ port + 1 }}"
             status__name: "Active"
+            role__name: "Branch:L3Link"
             "!ref": "{{ site_name }}-rtr{{ rtr + 1 }}:eth{{ port + 1 }}"
         {% endfor %}
           - "!create_or_update:name": "eth8"
@@ -91,6 +92,7 @@ locations:
             type: "virtual"
             description: "Uplink to backbone"
             status__name: "Active"
+            role__name: "Branch:Loopback"
             "!ref": "{{ site_name }}-rtr{{ rtr + 1 }}:Loopback0"
     {% endfor %}
     # ----- Switches -----
@@ -115,6 +117,7 @@ locations:
             type: "1000base-t"
             description: "Uplink to rtr{{ port + 1 }}"
             status__name: "Active"
+            role__name: "Branch:L3Link"
             "!ref": "{{ site_name }}-sw{{ sw + 1 }}:eth{{ port + 1 }}"
             "!connect_cable":
               to: "!ref:{{ site_name }}-rtr{{ port + 1 }}:eth{{ sw + 1 }}"
@@ -124,6 +127,7 @@ locations:
             type: "virtual"
             description: "Uplink to backbone"
             status__name: "Active"
+            role__name: "Branch:Loopback"
             "!ref": "{{ site_name }}-sw{{ sw + 1 }}:Loopback0"
     {% endfor %}
 

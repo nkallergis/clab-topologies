@@ -60,21 +60,25 @@ roles:
     content_types:
       - { "!get:model": "prefix" }
       - { "!get:model": "ipaddress" }
+      - { "!get:model": "interface" }
   - "!create_or_update:name": "Branch:Loopback"
     color: "ff5722"
     content_types:
       - { "!get:model": "prefix" }
       - { "!get:model": "ipaddress" }
+      - { "!get:model": "interface" }
   - "!create_or_update:name": "Branch:LAN"
     color: "4caf50"
     content_types:
       - { "!get:model": "prefix" }
       - { "!get:model": "ipaddress" }
+      - { "!get:model": "interface" }
   - "!create_or_update:name": "P2P"
     color: "4caf50"
     content_types:
       - { "!get:model": "prefix" }
       - { "!get:model": "ipaddress" }
+      - { "!get:model": "interface" }
 
 circuit_types:
   - "!create_or_update:name": "Ethernet"

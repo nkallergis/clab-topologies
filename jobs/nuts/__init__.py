@@ -46,7 +46,7 @@ class NutJob(Job):
         description = "A job to run NUTS tests."
         has_sensitive_variables = False
 
-    def tests_constructor(self, topology: Topology):
+    def generate_test_files(self, topology: Topology):
         """Generate NUTS tests from the topology."""
 
         # Get devices from the topology
@@ -77,46 +77,12 @@ class NutJob(Job):
             nodes=nodes,
         )
 
-        # # Generate inventory/hosts.yaml
-        # pwd = Path(__file__).parent
-        # template_path = pwd / "templates"
-        # template_file = "hosts.yaml.j2"
-        # env = Environment(
-        #     loader=FileSystemLoader(template_path),
-        #     trim_blocks=True,
-        #     lstrip_blocks=True,
-        # )
-        # template = env.get_template(template_file)
-        # output = template.render(topology=topology, nodes=nodes)
-        # output_path = pwd / "inventory/hosts.yaml"
-        # if output_path.exists():
-        #     output_path.unlink()
-        # output_path.write_text(output)
-
-        # # Generate tests/test_lldp_adj.yaml
-        # pwd = Path(__file__).parent
-        # template_path = pwd / "templates"
-        # template_file = "test_lldp_adj.yaml.j2"
-        # env = Environment(
-        #     loader=FileSystemLoader(template_path),
-        #     trim_blocks=True,
-        #     lstrip_blocks=True,
-        # )
-        # template = env.get_template(template_file)
-        # output = template.render(topology=topology, nodes=nodes)
-        # output_path = pwd / "tests/test_lldp_adj.yaml"
-        # if output_path.exists():
-        #     output_path.unlink()
-        # output_path.write_text(output)
-
-
-
 
     def run(self, topology: Topology):  # pylint: disable=arguments-differ
         """Run NUTS tests."""
 
         # Construct the tests
-        self.tests_constructor(topology)
+        self.generate_test_files(topology)
 
         self.logger.info("Running NUTS tests...")
 
