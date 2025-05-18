@@ -4,7 +4,7 @@ import pytest
 
 from nautobot.apps.jobs import Job, register_jobs
 
-name = "NUTS"
+name = "Autocon 3"
 
 class NutJob(Job):
     """A job to run NUTS tests."""
