@@ -113,8 +113,6 @@ logging level ZTP informational
 !
 spanning-tree mode mstp
 !
-{% include './gc_templates/eos/interfaces.j2' %}
-!
 system l1
    unsupported speed action error
    unsupported error-correction action error
@@ -128,6 +126,7 @@ management api gnmi
 management api netconf
    transport ssh default
 !
+{% include './gc_templates/eos/interfaces.j2' %}
 !
 !
 ip routing
