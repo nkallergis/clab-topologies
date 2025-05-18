@@ -41,7 +41,7 @@ class NutJob(Job):
             return {}
         nodes = [device.name for device in devices]
         
-        # Generate hosts.yaml
+        # Generate inventory/hosts.yaml
         pwd = Path(__file__).parent
         template_path = pwd / "templates"
         template_file = "hosts.yaml.j2"
@@ -54,6 +54,22 @@ class NutJob(Job):
         output = template.render(topology=topology, nodes=nodes)
         output_path = pwd / "inventory/hosts.yaml"
         output_path.write_text(output)
+
+        # Generate tests/test_lldp_adj.yaml
+        pwd = Path(__file__).parent
+        template_path = pwd / "templates"
+        template_file = "test_lldp_adj.yaml.j2"
+        env = Environment(
+            loader=FileSystemLoader(template_path),
+            trim_blocks=True,
+            lstrip_blocks=True,
+        )
+        template = env.get_template(template_file)
+        output = template.render(topology=topology, nodes=nodes)
+        output_path = pwd / "inventory/test_lldp_adj.yaml"
+        output_path.write_text(output)
+
+
 
     def run(self, topology: Topology):  # pylint: disable=arguments-differ
         """Run NUTS tests."""
