@@ -55,9 +55,9 @@ class NutJob(Job):
 
         # Read the result, return the report
         if report_path.exists():
-            report = json.loads(report_path.read_text())
-            self.create_file("report.json", report)
-            return report["summary"]
+            report_data = report_path.read_text()
+            self.create_file("report.json", report_data)
+            return json.loads(report_data)["summary"]
         self.logger.error("Report file was not generated!")
         return {}
 
