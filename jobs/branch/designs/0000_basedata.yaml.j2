@@ -89,10 +89,6 @@ prefixes:
     status__name: "Active"
 
 secrets:
-  - "!create_or_update:name": "GITHUB_TOKEN"
-    provider: "environment-variable"
-    parameters: {"variable": "GITHUB_TOKEN"}
-    "!ref": "github_token"
   - "!create_or_update:name": "DEVICE_USERNAME"
     provider: "environment-variable"
     parameters: {"variable": "NAUTOBOT_SUPERUSER_NAME"}
@@ -103,16 +99,10 @@ secrets:
     "!ref": "device_password"
 
 secrets_groups:
-  - "!create_or_update:name": "GITHUB_CREDENTIALS"
-    "!ref": "github_credentials"
   - "!create_or_update:name": "DEVICE_CREDENTIALS"
     "!ref": "device_credentials"
 
 secrets_group_associations:
-  - "!create_or_update:secrets_group": "!ref:github_credentials"
-    "!create_or_update:secret": "!ref:github_token"
-    "!create_or_update:access_type": "HTTP(S)"
-    "!create_or_update:secret_type": "token"
   - "!create_or_update:secrets_group": "!ref:device_credentials"
     "!create_or_update:secret": "!ref:device_username"
     "!create_or_update:access_type": "Generic"
