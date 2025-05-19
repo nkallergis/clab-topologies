@@ -20,8 +20,8 @@ topology:
       startup-config: https://raw.githubusercontent.com/nkallergis/clab-topologies/refs/heads/main/gc_intended/wsd2-sw2.cfg
   
   links:
-    - endpoints: ["wsd2-sw2:eth1", "wsd2-rtr1:eth2"]
-    - endpoints: ["wsd2-sw1:eth1", "wsd2-rtr1:eth1"]
     - endpoints: ["wsd2-sw1:eth2", "wsd2-rtr2:eth1"]
     - endpoints: ["wsd2-sw2:eth2", "wsd2-rtr2:eth2"]
+    - endpoints: ["wsd2-sw1:eth1", "wsd2-rtr1:eth1"]
+    - endpoints: ["wsd2-sw2:eth1", "wsd2-rtr1:eth2"]
   
