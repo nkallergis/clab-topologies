@@ -2,6 +2,7 @@
 {% for addr in interface["ip_addresses"] %}
 {% if addr["address"] is defined %}
    ip address {{ addr["address"] }}
+   ip gateway {{ addr["address"] | ipaddr("network") | ipaddr(1) }}
 {% endif %}
 {% endfor %}
 {% else %}
