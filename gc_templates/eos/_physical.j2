@@ -3,7 +3,7 @@
 {% for addr in interface["ip_addresses"] %}
 {% if addr["address"] is defined %}
    ip address {{ addr["address"] }}
-   ip gateway {{ addr["address"] | get_first_usable }}
+   ip gateway {{ addr["address"] | ipaddress_network | get_first_usable }}
 {% endif %}
 {% endfor %}
 {% endif %}
