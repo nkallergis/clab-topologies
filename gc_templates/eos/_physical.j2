@@ -3,6 +3,7 @@
 {% for addr in interface["ip_addresses"] %}
 {% if addr["address"] is defined %}
    ip address {{ addr["address"] }}
+   ! {{ addr["address"] | ipaddr("network") | ipaddr(1) }}
 {% endif %}
 {% endfor %}
 {% endif %}
